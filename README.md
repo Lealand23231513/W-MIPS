@@ -1,7 +1,16 @@
-Thinpad 模板工程
----------------
+CPU Abstract
+===============
 
-工程包含示例代码和所有引脚约束，可以直接编译。
+## Test Result
 
-代码中包含中文注释，Vivado下可能出现乱码问题，为了保证显示正确
-Windows平台请使用GBK编码的文件，Linux平台请使用UTF-8编码的文件。  
+| test name | STREAM | MATRIX | CRYPTONIGHT |  sum  |
+| :-------: | :----: | :----: | :---------: | :---: |
+|  time/s   | 0.047  | 0.098  |    0.181    | 0.326 |
+
+## feature
+
+- 6 stage pipeline(PF, IF, ID, EX, MEM, WB)
+- In-order
+- 200M
+- icache
+- Dynamic prediction

@@ -7,10 +7,10 @@
 // RX: 8-bit data, 1 stop, no-parity (the receiver can accept more stop bits of course)
 
 //`define SIMULATION   // in this mode, TX outputs one bit per clock cycle
-                       // and RX receives one bit per clock cycle (for fast simulations)
+//                        and RX receives one bit per clock cycle (for fast simulations)
 
 ////////////////////////////////////////////////////////
-
+`include "global_def.vh"
 module async_transmitter(
 	input wire clk,
 	input wire TxD_start,
@@ -79,7 +79,12 @@ module async_receiver(
 	input wire RxD_clear,
 	output reg [7:0] RxD_data  // data received, valid only (for one clock cycle) when RxD_data_ready is asserted
 );
-
+`ifdef SIMULATION
+initial begin
+    RxD_data_ready<=1'd0;
+    RxD_data<=8'd0;
+end
+`endif
 parameter ClkFrequency = 25000000; // 25MHz
 parameter Baud = 115200;
 
