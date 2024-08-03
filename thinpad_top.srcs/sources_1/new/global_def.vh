@@ -2,12 +2,12 @@
 // `define SIMULATION //remember to close before synthesis
 //`define CLK_250M
 //`define CLK_240M
-//`define CLK_225M
+`define CLK_225M
 //`define CLK_200M
 //`define CLK_100M
-`define CLK_140M
+//`define CLK_140M
 //sram ctrl
-//`define MEMVIS_5//5 cycle memvis
+`define MEMVIS_5//5 cycle memvis
 //`define MEMVIS_4//4 cycle memvis
 //default 3 cycle memvis
 //params

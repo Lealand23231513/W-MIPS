@@ -92,8 +92,8 @@ module cpu(
       .clk_in1(clk_50M),  // 外部时钟输入
       // Clock out ports
       .clk_100M(clk_100M),
-      .clk_140M(clk_140M), // 时钟输出1，频率在IP配置界面中设置
-//      .clk_225M(clk_225M),
+//      .clk_140M(clk_140M), // 时钟输出1，频率在IP配置界面中设置
+      .clk_225M(clk_225M),
 //      .clk_240M(clk_240M),
 //      .clk_250M(clk_250M),
       .clk_200M(clk_200M),

@@ -56,9 +56,9 @@
 //  Output     Output      Phase    Duty Cycle   Pk-to-Pk     Phase
 //   Clock     Freq (MHz)  (degrees)    (%)     Jitter (ps)  Error (ps)
 //----------------------------------------------------------------------------
-// clk_100M__100.00000______0.000______50.0______121.630____138.123
-// clk_200M__200.00000______0.000______50.0______109.400____138.123
-// clk_140M__140.00000______0.000______50.0______115.495____138.123
+// clk_100M__100.00000______0.000______50.0_______93.814____109.699
+// clk_200M__200.00000______0.000______50.0_______85.301____109.699
+// clk_225M__225.00000______0.000______50.0_______83.960____109.699
 //
 //----------------------------------------------------------------------------
 // Input Clock   Freq (MHz)    Input Jitter (UI)
@@ -74,7 +74,7 @@ module pll_example
   // Clock out ports
   output        clk_100M,
   output        clk_200M,
-  output        clk_140M,
+  output        clk_225M,
   // Status and control signals
   input         reset,
   output        locked,
@@ -87,7 +87,7 @@ module pll_example
   // Clock out ports  
   .clk_100M(clk_100M),
   .clk_200M(clk_200M),
-  .clk_140M(clk_140M),
+  .clk_225M(clk_225M),
   // Status and control signals               
   .reset(reset), 
   .locked(locked),
