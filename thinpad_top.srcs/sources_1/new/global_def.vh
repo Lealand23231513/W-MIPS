@@ -1,14 +1,21 @@
 //ctrl macro
-//`define SIMULATION; //仿真设置，综合时记得关
-`define USE_PLL //暂时没用
-`define clk_100M_PLL // clk_100M使用PLL，综合时记得设置
-`define OVER_CLOCK// 超频
+// `define SIMULATION //remember to close before synthesis
+//`define CLK_250M
+//`define CLK_240M
+//`define CLK_225M
+//`define CLK_200M
+//`define CLK_100M
+`define CLK_140M
+//sram ctrl
+//`define MEMVIS_5//5 cycle memvis
+//`define MEMVIS_4//4 cycle memvis
+//default 3 cycle memvis
 //params
 //cache
-`define SET_SIZE 2//路数，也是一组中的行数
-`define PAD_WIDTH 2// PAD位宽，一字是4B，因此为2
+`define SET_SIZE 2//路锟斤拷锟斤拷也锟斤拷一锟斤拷锟叫碉拷锟斤拷锟斤拷
+`define PAD_WIDTH 2// PAD位锟斤拷锟斤拷一锟斤拷锟斤拷4B锟斤拷锟斤拷锟轿?2
 `define OFFSET_WIDTH 5
 `define INDEX_WIDTH 5
 `define TAG_WIDTH (32-`INDEX_WIDTH-`OFFSET_WIDTH)
-`define WAY_SIZE 2**`INDEX_WIDTH//一路中有多少行
-`define BLOCK_SIZE 2**(`OFFSET_WIDTH-`PAD_WIDTH)//一行中有多少字
+`define WAY_SIZE 2**`INDEX_WIDTH//一路锟斤拷锟叫讹拷锟斤拷锟斤拷
+`define BLOCK_SIZE 2**(`OFFSET_WIDTH-`PAD_WIDTH)//一锟斤拷锟斤拷锟叫讹拷锟斤拷锟斤拷

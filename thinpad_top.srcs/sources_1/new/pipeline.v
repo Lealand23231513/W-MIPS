@@ -81,6 +81,138 @@ module IF2ID(
     end
 endmodule
 
+module ID2EM1(
+    input wire clk,
+    input wire en,
+    input wire reset,
+    input wire bubble,
+    
+    input wire [31:0] ID_PC,
+    input wire [31:0] ID_IR,
+    input wire MCY,
+    input wire RegWrite,
+    input wire [4:0] WA,
+    input wire [31:0] RD1,
+    input wire [31:0] RD2,
+    
+    output reg [31:0] EM1_PC,
+    output reg [31:0] EM1_IR,
+    output reg MCY_o,
+    output reg RegWrite_o,
+    output reg [4:0] WA_o,
+    output reg [31:0] RD1_o,
+    output reg [31:0] RD2_o
+);
+    always @(posedge clk, posedge reset) begin
+        if (reset) begin
+            EM1_PC<=0;
+            EM1_IR<=0;
+            MCY_o<=0;
+            RegWrite_o<=0;
+            WA_o<=0;
+            RD1_o<=0;
+            RD2_o<=0;
+        end
+        else if (en) begin
+            EM1_PC<=bubble?0:ID_PC;
+            EM1_IR<=bubble?0:ID_IR;
+            MCY_o<=bubble?0:MCY;
+            RegWrite_o<=bubble?0:RegWrite;
+            WA_o<=bubble?0:WA;
+            RD1_o<=bubble?0:RD1;
+            RD2_o<=bubble?0:RD2;
+        end
+    end
+endmodule
+
+module EM12EM2(
+    input wire clk,
+    input wire en,
+    input wire reset,
+    input wire bubble,
+    
+    input wire [31:0] EM1_PC,
+    input wire [31:0] EM1_IR,
+    input wire MCY,
+    input wire RegWrite,
+    input wire [4:0] WA,
+    input wire [31:0] ll,
+    input wire [31:0] lh,
+    input wire [31:0] hl,
+    input wire [31:0] hh,
+    
+    output reg [31:0] EM2_PC,
+    output reg [31:0] EM2_IR,
+    output reg MCY_o,
+    output reg RegWrite_o,
+    output reg [4:0] WA_o,
+    output reg [31:0] ll_o,
+    output reg [31:0] lh_o,
+    output reg [31:0] hl_o,
+    output reg [31:0] hh_o
+);
+    always @(posedge clk, posedge reset) begin
+        if (reset) begin
+            EM2_PC<=0;
+            EM2_IR<=0;
+            MCY_o<=0;
+            RegWrite_o<=0;
+            WA_o<=0;
+            ll_o<=0;
+            lh_o<=0;
+            hl_o<=0;
+            hh_o<=0;
+        end
+        else if (en) begin
+            EM2_PC<=bubble?0:EM1_PC;
+            EM2_IR<=bubble?0:EM1_IR;
+            MCY_o<=bubble?0:MCY;
+            RegWrite_o<=bubble?0:RegWrite;
+            WA_o<=bubble?0:WA;
+            ll_o<=bubble?0:ll;
+            lh_o<=bubble?0:lh;
+            hl_o<=bubble?0:hl;
+            hh_o<=bubble?0:hh;
+        end
+    end
+endmodule
+
+module EM22WB2(
+    input wire clk,
+    input wire en,
+    input wire reset,
+    input wire bubble,
+    
+    input wire [31:0] EM2_PC,
+    input wire [31:0] EM2_IR,
+    input wire RegWrite,
+    input wire [4:0] WA,
+    input wire [31:0] EM_D,
+    
+    output reg [31:0] WB2_PC,
+    output reg [31:0] WB2_IR,
+    output reg RegWrite_o,
+    output reg [4:0] WA_o,
+    output reg [31:0] EM_D_o
+);
+    always @(posedge clk, posedge reset) begin
+        if (reset) begin
+            WB2_PC<=0;
+            WB2_IR<=0;
+            RegWrite_o<=0;
+            WA_o<=0;
+            EM_D_o<=0;
+        end
+        else if (en) begin
+            WB2_PC<=bubble?0:EM2_PC;
+            WB2_IR<=bubble?0:EM2_IR;
+            RegWrite_o<=bubble?0:RegWrite;
+            WA_o<=bubble?0:WA;
+            EM_D_o<=bubble?0:EM_D;
+        end
+    end
+endmodule
+
 module ID2EX(
     input wire clk,
     input wire en,

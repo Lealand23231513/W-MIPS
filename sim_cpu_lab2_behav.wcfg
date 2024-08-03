@@ -11,22 +11,22 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="12809333fs"></ZoomStartTime>
-      <ZoomEndTime time="12952934fs"></ZoomEndTime>
-      <Cursor1Time time="12929000fs"></Cursor1Time>
+      <ZoomStartTime time="862692fs"></ZoomStartTime>
+      <ZoomEndTime time="1027462fs"></ZoomEndTime>
+      <Cursor1Time time="931231fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="160"></NameColumnWidth>
-      <ValueColumnWidth column_width="75"></ValueColumnWidth>
+      <ValueColumnWidth column_width="71"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="38" />
-   <wvobject fp_name="/sim_cpu_lab2/CPU/clk_140M" type="logic">
-      <obj_property name="ElementShortName">clk_140M</obj_property>
-      <obj_property name="ObjectShortName">clk_140M</obj_property>
+   <wvobject fp_name="/sim_cpu_lab2/CPU/clk_200M" type="logic">
+      <obj_property name="ElementShortName">clk_200M</obj_property>
+      <obj_property name="ObjectShortName">clk_200M</obj_property>
    </wvobject>
-   <wvobject fp_name="/sim_cpu_lab2/CPU/reset_140M" type="logic">
-      <obj_property name="ElementShortName">reset_140M</obj_property>
-      <obj_property name="ObjectShortName">reset_140M</obj_property>
+   <wvobject fp_name="/sim_cpu_lab2/CPU/reset_200M" type="logic">
+      <obj_property name="ElementShortName">reset_200M</obj_property>
+      <obj_property name="ObjectShortName">reset_200M</obj_property>
    </wvobject>
    <wvobject fp_name="/sim_cpu_lab2/CPU/icache/vaddr" type="array">
       <obj_property name="ElementShortName">vaddr[31:0]</obj_property>

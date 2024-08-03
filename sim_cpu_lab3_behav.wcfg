@@ -11,22 +11,22 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="10518072fs"></ZoomStartTime>
-      <ZoomEndTime time="10662673fs"></ZoomEndTime>
-      <Cursor1Time time="10638572fs"></Cursor1Time>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="165357fs"></ZoomEndTime>
+      <Cursor1Time time="0fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="147"></NameColumnWidth>
-      <ValueColumnWidth column_width="78"></ValueColumnWidth>
+      <ValueColumnWidth column_width="74"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="39" />
-   <wvobject fp_name="/sim_cpu_lab3/CPU/clk_140M" type="logic">
-      <obj_property name="ElementShortName">clk_140M</obj_property>
-      <obj_property name="ObjectShortName">clk_140M</obj_property>
+   <WVObjectSize size="40" />
+   <wvobject fp_name="/sim_cpu_lab3/clk_200M" type="logic">
+      <obj_property name="ElementShortName">clk_200M</obj_property>
+      <obj_property name="ObjectShortName">clk_200M</obj_property>
    </wvobject>
-   <wvobject fp_name="/sim_cpu_lab3/CPU/reset_140M" type="logic">
-      <obj_property name="ElementShortName">reset_140M</obj_property>
-      <obj_property name="ObjectShortName">reset_140M</obj_property>
+   <wvobject fp_name="/sim_cpu_lab3/reset" type="logic">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
    </wvobject>
    <wvobject fp_name="/sim_cpu_lab3/base_ram_data" type="array">
       <obj_property name="ElementShortName">base_ram_data[31:0]</obj_property>
@@ -184,12 +184,16 @@
       <obj_property name="ElementShortName">send_req</obj_property>
       <obj_property name="ObjectShortName">send_req</obj_property>
    </wvobject>
-   <wvobject fp_name="/sim_cpu_lab3/CPU/icache/transport_end" type="logic">
-      <obj_property name="ElementShortName">transport_end</obj_property>
-      <obj_property name="ObjectShortName">transport_end</obj_property>
-   </wvobject>
    <wvobject fp_name="/sim_cpu_lab3/CPU/icache/ready_resp" type="logic">
       <obj_property name="ElementShortName">ready_resp</obj_property>
       <obj_property name="ObjectShortName">ready_resp</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_lab3/CPU/WB_WD2ID_RD1" type="logic">
+      <obj_property name="ElementShortName">WB_WD2ID_RD1</obj_property>
+      <obj_property name="ObjectShortName">WB_WD2ID_RD1</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_lab3/CPU/WB_WD2ID_RD2" type="logic">
+      <obj_property name="ElementShortName">WB_WD2ID_RD2</obj_property>
+      <obj_property name="ObjectShortName">WB_WD2ID_RD2</obj_property>
    </wvobject>
 </wave_config>

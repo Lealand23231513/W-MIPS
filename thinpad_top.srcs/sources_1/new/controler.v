@@ -41,7 +41,8 @@ module controler(
     output wire LB_SB,
     output wire POF,
     output wire USE_SA,
-    output wire ID_RegUse
+    output wire ID_RegUse,
+    output wire MCY
     );
     wire [5:0]OP=IR[31:26];
     wire [5:0]FUNCT=IR[5:0];
@@ -101,4 +102,5 @@ module controler(
     assign POF=add;
     assign USE_SA=sll|srl;
     assign ID_RegUse=beq|jr|bne|blez|bgtz;
+    assign MCY=mul;
 endmodule

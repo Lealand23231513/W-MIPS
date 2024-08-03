@@ -24,8 +24,10 @@ module sim_cpu_lab2(
 
     );
     reg clk;
+    wire clk_core;
     reg reset;
     parameter HALF_CYCLE = 10;
+//    parameter SPC_CYCLE=5;
     parameter SPC_CYCLE=7.142857;
     always #HALF_CYCLE begin
         clk = ~clk;
@@ -74,6 +76,7 @@ module sim_cpu_lab2(
     cpu CPU(
     .clk_50M(clk),           //50MHz  ±÷” ‰»Î
     .clk_140m(clk_140m),
+    .clk_core(clk_core),
     .clk_11M0592(clk),
     .clock_btn(clk),
     .reset_btn(reset),

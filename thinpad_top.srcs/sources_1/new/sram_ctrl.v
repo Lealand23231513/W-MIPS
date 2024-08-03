@@ -20,6 +20,22 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 `include "global_def.vh"
+`define FREE_STATE 0
+`define FIRST_STATE 1
+`ifdef MEMVIS_5
+    `define MIDDLE_STATE 1,2,3,4
+    `define PENULT_STATE 4
+    `define LAST_STATE 5
+`elsif MEMVIS_4
+    `define MIDDLE_STATE 1,2,3
+    `define PENULT_STATE 3
+    `define LAST_STATE 4
+`else
+    `define MIDDLE_STATE 1,2
+    `define PENULT_STATE 2
+    `define LAST_STATE 3
+`endif
+
 module sram_ctrl(
     input wire clk,reset,
     //sram
@@ -54,24 +70,15 @@ module sram_ctrl(
     );
     parameter [1:0] ram_id=0; //0:invalid 1: base 2: ext 3: spc
     reg [31:0] data_bus_resp_reg[`BLOCK_SIZE-1:0];
-    `ifdef OVER_CLOCK
+    `ifdef MEMVIS_5
+    reg [2:0] ram_state;// 0: Free, 1,2,3,4,5: mem access
+    `elsif MEMVIS_4  
     reg [2:0] ram_state;// 0: Free, 1,2,3,4: mem access
     `else
     reg [1:0]ram_state;// 0: Free, 1,2,3: mem access
     `endif
     reg [4:0] num_finished; // 注意，位宽要和word_size_req的最大值
     reg [1:0]ram_src; //0,3:invalid, 1:from icache, 2: from DM
-//    fifo_generator_0 wdata_fifo (
-//      .clk(clk),      // input wire clk
-//      .srst(reset),    // input wire srst
-//      .din(din),      // input wire [67 : 0] din
-//      .wr_en(wr_en),  // input wire wr_en
-//      .rd_en(rd_en),  // input wire rd_en
-//      .dout(dout),    // output wire [67 : 0] dout
-//      .full(full),    // output wire full
-//      .empty(empty)  // output wire empty
-//    );
-    
     integer i;
     genvar j;
     assign IO_ctrl=we;
@@ -105,7 +112,7 @@ module sram_ctrl(
         end
         else begin
             case (ram_state)
-                0: begin
+                `FREE_STATE: begin
                     if (DM_start_req&ram_id==DM_dst_req) begin
                         ram_state<=ram_state+1;
                         ram_src<=2;
@@ -132,7 +139,7 @@ module sram_ctrl(
                         will_busy<=1;
                     end
                 end
-                1,2,3: begin
+                `MIDDLE_STATE: begin
                     ram_state<=ram_state+1;
                     if (ram_src==1) begin
                         IC_ready_resp<=0;
@@ -142,26 +149,26 @@ module sram_ctrl(
                     end
                     else if (ram_src==2) begin
                         if (DM_start_req&ram_id==DM_dst_req) begin 
-                            if (ram_state==3&!oe) DM_hold_resp<=0;//this read req will end
+                            if (ram_state==`PENULT_STATE&!oe) DM_hold_resp<=0;//this read req will end
                             else DM_hold_resp<=1;//hold req
                         end
-                        if (ram_state==1&!we) begin//write
+                        if (ram_state==`FIRST_STATE&!we) begin//write
                             DM_end_resp<=0;
                         end
-                        else if (ram_state==3&!oe) begin
+                        else if (ram_state==`PENULT_STATE&!oe) begin
                             DM_end_resp<=1;
                         end
-                        if (ram_state==3) will_busy<=0;
+                        if (ram_state==`PENULT_STATE) will_busy<=0;
                     end
                 end
-                4: begin
+                `LAST_STATE: begin
                     if (ram_src==1) begin //IC
                         if (num_finished<IC_word_size_req) begin
                             data_bus_resp_reg[num_finished-1]<=data_r;
                             IC_ready_resp<=1;
                             addr<=addr+1;
                             num_finished<=num_finished+1;
-                            ram_state<=1;
+                            ram_state<=`FIRST_STATE;
                         end
                         else if (IC_send_req&!IC_ready_resp) begin
                             data_bus_resp_reg[num_finished-1]<=data_r;
@@ -171,14 +178,14 @@ module sram_ctrl(
                         end
                         else if (IC_send_req&IC_ready_resp) begin
                             IC_ready_resp<=0;
-                            ram_state<=0;
+                            ram_state<=`FREE_STATE;
                             ram_src<=0;
                             will_busy<=0;
                         end 
                     end
                     else if (ram_src==2) begin //DM
                         if (DM_start_req&ram_id==DM_dst_req) begin
-                            ram_state<=1;
+                            ram_state<=`FIRST_STATE;
                             ram_src<=2;
                             ce<=0;
                             oe<=DM_write_req;
@@ -194,7 +201,7 @@ module sram_ctrl(
                             ce<=1;
                             oe<=1;
                             we<=1;
-                            ram_state<=0;
+                            ram_state<=`FREE_STATE;
                             DM_end_resp<=0;
                         end
                     end

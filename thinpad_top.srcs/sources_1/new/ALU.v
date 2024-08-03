@@ -34,14 +34,15 @@ module ALU(
     reg [32:0] tmp;
     wire [31:0] mult_R;
     wire mult_done, valid;
-    assign done=(ALUOP==4'b1010)?mult_done:1;
-    assign valid=(ALUOP==4'b1010);
-    multiplier multiplier(
-        .clk(clk), .reset(reset), .valid(valid),
-        .A(A), .B(B),
-        .LO(mult_R),
-        .done(mult_done)
-    );
+    assign done=1;
+//    assign done=(ALUOP==4'b1010)?mult_done:1;
+//    assign valid=(ALUOP==4'b1010);
+//    multiplier multiplier(
+//        .clk(clk), .reset(reset), .valid(valid),
+//        .A(A), .B(B),
+//        .LO(mult_R),
+//        .done(mult_done)
+//    );
     always @(*) begin
         case(ALUOP)
             4'b0000: tmp=A|B;
@@ -55,7 +56,7 @@ module ALU(
             4'b1000: tmp=A&B;
             4'b1001: tmp=A^B;
 //            4'b1010: tmp=$signed(A)*$signed(B);
-            4'b1010: tmp={1'b0, mult_R};
+//            4'b1010: tmp={1'b0, mult_R};
             default: tmp=32'dx;
         endcase
     end

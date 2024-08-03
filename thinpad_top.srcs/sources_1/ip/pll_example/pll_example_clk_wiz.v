@@ -59,7 +59,6 @@
 // clk_100M__100.00000______0.000______50.0______121.630____138.123
 // clk_200M__200.00000______0.000______50.0______109.400____138.123
 // clk_140M__140.00000______0.000______50.0______115.495____138.123
-// clk_150M__155.55556______0.000______50.0______113.652____138.123
 //
 //----------------------------------------------------------------------------
 // Input Clock   Freq (MHz)    Input Jitter (UI)
@@ -75,7 +74,6 @@ module pll_example_clk_wiz
   output        clk_100M,
   output        clk_200M,
   output        clk_140M,
-  output        clk_150M,
   // Status and control signals
   input         reset,
   output        locked,
@@ -114,6 +112,7 @@ wire clk_in2_pll_example;
   wire        clkfbout_pll_example;
   wire        clkfbout_buf_pll_example;
   wire        clkfboutb_unused;
+   wire clkout3_unused;
    wire clkout4_unused;
   wire        clkout5_unused;
   wire        clkout6_unused;
@@ -137,9 +136,6 @@ wire clk_in2_pll_example;
     .CLKOUT2_DIVIDE       (10),
     .CLKOUT2_PHASE        (0.000),
     .CLKOUT2_DUTY_CYCLE   (0.500),
-    .CLKOUT3_DIVIDE       (9),
-    .CLKOUT3_PHASE        (0.000),
-    .CLKOUT3_DUTY_CYCLE   (0.500),
     .CLKIN1_PERIOD        (20.000))
   plle2_adv_inst
     // Output clocks
@@ -148,7 +144,7 @@ wire clk_in2_pll_example;
     .CLKOUT0             (clk_100M_pll_example),
     .CLKOUT1             (clk_200M_pll_example),
     .CLKOUT2             (clk_140M_pll_example),
-    .CLKOUT3             (clk_150M_pll_example),
+    .CLKOUT3             (clkout3_unused),
     .CLKOUT4             (clkout4_unused),
     .CLKOUT5             (clkout5_unused),
      // Input clock control
@@ -198,10 +194,6 @@ wire clk_in2_pll_example;
   BUFG clkout3_buf
    (.O   (clk_140M),
     .I   (clk_140M_pll_example));
-
-  BUFG clkout4_buf
-   (.O   (clk_150M),
-    .I   (clk_150M_pll_example));
 
 
 

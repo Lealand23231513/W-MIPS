@@ -19,7 +19,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-
+`include "global_def.vh"
 module sim_cpu_lab5(
 
     );
@@ -50,6 +50,20 @@ module sim_cpu_lab5(
     wire txd;
     wire [15:0] leds;
     wire  rxd;
+    wire clk_core;
+    `ifdef CLK_250M
+    parameter CLK_FREQ=250000000;
+    `elsif CLK_240M
+    parameter CLK_FREQ=240000000;
+    `elsif CLK_225M
+    parameter CLK_FREQ=225000000;
+    `elsif CLK_200M
+    parameter CLK_FREQ=200000000;
+    `elsif CLK_100M
+    parameter CLK_FREQ=100000000;
+    `else
+    parameter CLK_FREQ=140000000;
+    `endif
     ram #(.lab(5), .ADDR_WIDTH(20), .random_code(1)) 
     base_ram(
     .ram_data(base_ram_data),  
@@ -58,7 +72,7 @@ module sim_cpu_lab5(
     .ram_ce_n(base_ram_ce_n),       
     .ram_oe_n(base_ram_oe_n),       
     .ram_we_n(base_ram_we_n),       
-    .clk(clk)
+    .clk(clk_core)
     );
     
     ram #(.lab(5), .ADDR_WIDTH(20), .ISEXT(1))
@@ -69,13 +83,14 @@ module sim_cpu_lab5(
     .ram_ce_n(ext_ram_ce_n),       
     .ram_oe_n(ext_ram_oe_n),       
     .ram_we_n(ext_ram_we_n),       
-    .clk(clk)
+    .clk(clk_core)
     );
     
     
     cpu CPU(
     .clk_50M(clk),           //50MHz 时钟输入
     .clk_11M0592(clk),
+    .clk_core(clk_core),
     .clock_btn(clk),
     .reset_btn(reset),
     .dip_sw(dip_sw),
@@ -101,15 +116,15 @@ module sim_cpu_lab5(
     .rxd(rxd)  //直连串口接收端
     );
     
-    async_transmitter #(.ClkFrequency(50000000),.Baud(9600)) //发送模块，9600无检验位
+    async_transmitter #(.ClkFrequency(CLK_FREQ),.Baud(9600)) //发送模块，9600无检验位
         ext_uart_t(
-            .clk(clk),                  //外部时钟信号
+            .clk(clk_core),                  //外部时钟信号
             .TxD(rxd),                      //串行信号输出
             .TxD_busy(busy),       //发送器忙状态指示
             .TxD_start(start),    //开始发送信号
             .TxD_data(data)        //待发送的数据
     );
-    always @(posedge clk) begin //将WD发送出去
+    always @(posedge clk_core) begin //将WD发送出去
         if(!busy&&send)begin 
             start <= 1;
         end else begin 
@@ -127,14 +142,14 @@ module sim_cpu_lab5(
         reset=1;
         #100
         reset=0;
-        #26
-        CPU.GRF.DataReg[2]=32'h7FFFF;
-        CPU.GRF.DataReg[3]=32'h805FFFFC;
-        CPU.GRF.DataReg[4]=32'h80400000;
-        CPU.GRF.DataReg[5]=32'hdeadbeef;
-        CPU.GRF.DataReg[6]=32'hfaceb00c;
-        CPU.GRF.DataReg[7]=32'h100000;
-        CPU.GRF.DataReg[8]=32'h80000;
-        $display("%x", ext_ram.memory[32'h5beef]);
+        #2550
+        CPU.RGF.DataReg[2]=32'h7FFFF;
+        CPU.RGF.DataReg[3]=32'h805FFFFC;
+        CPU.RGF.DataReg[4]=32'h80400000;
+        CPU.RGF.DataReg[5]=32'hdeadbeef;
+        CPU.RGF.DataReg[6]=32'hfaceb00c;
+        CPU.RGF.DataReg[7]=32'h100000;
+        CPU.RGF.DataReg[8]=32'h80000;
+//        $display("%x", ext_ram.memory[32'h5beef]);
     end
 endmodule
