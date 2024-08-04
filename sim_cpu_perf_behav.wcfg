@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="sim_cpu_perf_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="sim_cpu_perf" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="933242fs"></ZoomStartTime>
+      <ZoomEndTime time="1013352fs"></ZoomEndTime>
+      <Cursor1Time time="1000000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="160"></NameColumnWidth>
+      <ValueColumnWidth column_width="91"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="23" />
+   <wvobject fp_name="/sim_cpu_perf/CPU/clk_140M" type="logic">
+      <obj_property name="ElementShortName">clk_140M</obj_property>
+      <obj_property name="ObjectShortName">clk_140M</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_perf/CPU/reset_140M" type="logic">
+      <obj_property name="ElementShortName">reset_140M</obj_property>
+      <obj_property name="ObjectShortName">reset_140M</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_perf/CPU/IF_IR" type="array">
+      <obj_property name="ElementShortName">IF_IR[31:0]</obj_property>
+      <obj_property name="ObjectShortName">IF_IR[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_perf/CPU/ID_IR" type="array">
+      <obj_property name="ElementShortName">ID_IR[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ID_IR[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_perf/CPU/EX_IR" type="array">
+      <obj_property name="ElementShortName">EX_IR[31:0]</obj_property>
+      <obj_property name="ObjectShortName">EX_IR[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_perf/CPU/MEM_IR" type="array">
+      <obj_property name="ElementShortName">MEM_IR[31:0]</obj_property>
+      <obj_property name="ObjectShortName">MEM_IR[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_perf/CPU/WB_IR" type="array">
+      <obj_property name="ElementShortName">WB_IR[31:0]</obj_property>
+      <obj_property name="ObjectShortName">WB_IR[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_perf/CPU/WB_WA" type="array">
+      <obj_property name="ElementShortName">WB_WA[4:0]</obj_property>
+      <obj_property name="ObjectShortName">WB_WA[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_perf/CPU/WB_WD" type="array">
+      <obj_property name="ElementShortName">WB_WD[31:0]</obj_property>
+      <obj_property name="ObjectShortName">WB_WD[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_perf/CPU/WB_RegWrite" type="logic">
+      <obj_property name="ElementShortName">WB_RegWrite</obj_property>
+      <obj_property name="ObjectShortName">WB_RegWrite</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_perf/base_ram_data" type="array">
+      <obj_property name="ElementShortName">base_ram_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">base_ram_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_perf/base_ram_addr" type="array">
+      <obj_property name="ElementShortName">base_ram_addr[19:0]</obj_property>
+      <obj_property name="ObjectShortName">base_ram_addr[19:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_perf/base_ram_be_n" type="array">
+      <obj_property name="ElementShortName">base_ram_be_n[3:0]</obj_property>
+      <obj_property name="ObjectShortName">base_ram_be_n[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_perf/base_ram_ce_n" type="logic">
+      <obj_property name="ElementShortName">base_ram_ce_n</obj_property>
+      <obj_property name="ObjectShortName">base_ram_ce_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_perf/base_ram_oe_n" type="logic">
+      <obj_property name="ElementShortName">base_ram_oe_n</obj_property>
+      <obj_property name="ObjectShortName">base_ram_oe_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_perf/base_ram_we_n" type="logic">
+      <obj_property name="ElementShortName">base_ram_we_n</obj_property>
+      <obj_property name="ObjectShortName">base_ram_we_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_perf/ext_ram_data" type="array">
+      <obj_property name="ElementShortName">ext_ram_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ext_ram_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_perf/ext_ram_addr" type="array">
+      <obj_property name="ElementShortName">ext_ram_addr[19:0]</obj_property>
+      <obj_property name="ObjectShortName">ext_ram_addr[19:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_perf/ext_ram_be_n" type="array">
+      <obj_property name="ElementShortName">ext_ram_be_n[3:0]</obj_property>
+      <obj_property name="ObjectShortName">ext_ram_be_n[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_perf/ext_ram_ce_n" type="logic">
+      <obj_property name="ElementShortName">ext_ram_ce_n</obj_property>
+      <obj_property name="ObjectShortName">ext_ram_ce_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_perf/ext_ram_oe_n" type="logic">
+      <obj_property name="ElementShortName">ext_ram_oe_n</obj_property>
+      <obj_property name="ObjectShortName">ext_ram_oe_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_perf/ext_ram_we_n" type="logic">
+      <obj_property name="ElementShortName">ext_ram_we_n</obj_property>
+      <obj_property name="ObjectShortName">ext_ram_we_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_perf/CPU/base_controler/ram_state" type="array">
+      <obj_property name="ElementShortName">ram_state[1:0]</obj_property>
+      <obj_property name="ObjectShortName">ram_state[1:0]</obj_property>
+   </wvobject>
+</wave_config>
