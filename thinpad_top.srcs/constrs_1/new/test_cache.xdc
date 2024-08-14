@@ -287,9 +287,9 @@ set_property CFGBVS VCCO [current_design]
 set_property CONFIG_VOLTAGE 3.3 [current_design]
 set_property BITSTREAM.GENERAL.COMPRESS TRUE [current_design]
 
-#set_max_delay -to [get_ports *ram*] 5.000
+set_max_delay -to [get_ports *ram*] 4.500
 
-#set_max_delay -from [get_ports *ram_data*] -to [get_cells -hierarchical *data_bus_resp_reg*] 4.800
+set_max_delay -from [get_ports *ram_data*] -to [get_cells -hierarchical *data_bus_resp_reg*] 4.500
 
-#set_max_delay -from [get_ports -filter { NAME =~  "*ram_data*" && DIRECTION == "INOUT" }] -to [get_cells -hierarchical *data_r_ori_buf_reg*] 4.800
+set_max_delay -from [get_ports -filter { NAME =~  "*ram_data*" && DIRECTION == "INOUT" }] -to [get_cells -hierarchical *data_r_ori_buf_reg*] 4.500
 
