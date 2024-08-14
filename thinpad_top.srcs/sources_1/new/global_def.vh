@@ -7,8 +7,8 @@
 // `define CLK_250M //ok
 //`define CLK_225M
 //`define CLK_200M  //ok
-`define CLK_140M //ok
-//`define CLK_100M //ok
+// `define CLK_140M //ok
+`define CLK_100M //ok
 //sram ctrl
 `ifdef CLK_300M
     `define MEMVIS_6
