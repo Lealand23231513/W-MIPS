@@ -11,26 +11,22 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="862692fs"></ZoomStartTime>
-      <ZoomEndTime time="1027462fs"></ZoomEndTime>
-      <Cursor1Time time="931231fs"></Cursor1Time>
+      <ZoomStartTime time="28795666fs"></ZoomStartTime>
+      <ZoomEndTime time="28940067fs"></ZoomEndTime>
+      <Cursor1Time time="28876866fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="160"></NameColumnWidth>
-      <ValueColumnWidth column_width="71"></ValueColumnWidth>
+      <ValueColumnWidth column_width="67"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="38" />
-   <wvobject fp_name="/sim_cpu_lab2/CPU/clk_200M" type="logic">
-      <obj_property name="ElementShortName">clk_200M</obj_property>
-      <obj_property name="ObjectShortName">clk_200M</obj_property>
+   <WVObjectSize size="36" />
+   <wvobject fp_name="/sim_cpu_lab2/CPU/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
    </wvobject>
-   <wvobject fp_name="/sim_cpu_lab2/CPU/reset_200M" type="logic">
-      <obj_property name="ElementShortName">reset_200M</obj_property>
-      <obj_property name="ObjectShortName">reset_200M</obj_property>
-   </wvobject>
-   <wvobject fp_name="/sim_cpu_lab2/CPU/icache/vaddr" type="array">
-      <obj_property name="ElementShortName">vaddr[31:0]</obj_property>
-      <obj_property name="ObjectShortName">vaddr[31:0]</obj_property>
+   <wvobject fp_name="/sim_cpu_lab2/CPU/reset" type="logic">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
    </wvobject>
    <wvobject fp_name="/sim_cpu_lab2/CPU/PF_PC" type="array">
       <obj_property name="ElementShortName">PF_PC[31:0]</obj_property>
@@ -44,41 +40,41 @@
       <obj_property name="ElementShortName">ID_IR[31:0]</obj_property>
       <obj_property name="ObjectShortName">ID_IR[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/sim_cpu_lab2/CPU/EX_IR" type="array">
+   <wvobject fp_name="/sim_cpu_lab2/CPU/EXU/EX_IR" type="array">
       <obj_property name="ElementShortName">EX_IR[31:0]</obj_property>
       <obj_property name="ObjectShortName">EX_IR[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/sim_cpu_lab2/CPU/MEM_IR" type="array">
+   <wvobject fp_name="/sim_cpu_lab2/CPU/EXU/EXF_IR" type="array">
+      <obj_property name="ElementShortName">EXF_IR[31:0]</obj_property>
+      <obj_property name="ObjectShortName">EXF_IR[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_lab2/CPU/EMU/EM1_IR" type="array">
+      <obj_property name="ElementShortName">EM1_IR[31:0]</obj_property>
+      <obj_property name="ObjectShortName">EM1_IR[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_lab2/CPU/EMU/EM2_IR" type="array">
+      <obj_property name="ElementShortName">EM2_IR[31:0]</obj_property>
+      <obj_property name="ObjectShortName">EM2_IR[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_lab2/CPU/EMU/EMF_IR" type="array">
+      <obj_property name="ElementShortName">EMF_IR[31:0]</obj_property>
+      <obj_property name="ObjectShortName">EMF_IR[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_lab2/CPU/LSU/AG_IR" type="array">
+      <obj_property name="ElementShortName">AG_IR[31:0]</obj_property>
+      <obj_property name="ObjectShortName">AG_IR[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_lab2/CPU/LSU/MEM_IR" type="array">
       <obj_property name="ElementShortName">MEM_IR[31:0]</obj_property>
       <obj_property name="ObjectShortName">MEM_IR[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/sim_cpu_lab2/CPU/WB_IR" type="array">
-      <obj_property name="ElementShortName">WB_IR[31:0]</obj_property>
-      <obj_property name="ObjectShortName">WB_IR[31:0]</obj_property>
+   <wvobject fp_name="/sim_cpu_lab2/CPU/LSU/LSF_IR" type="array">
+      <obj_property name="ElementShortName">LSF_IR[31:0]</obj_property>
+      <obj_property name="ObjectShortName">LSF_IR[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/sim_cpu_lab2/CPU/WB_RegWrite" type="logic">
-      <obj_property name="ElementShortName">WB_RegWrite</obj_property>
-      <obj_property name="ObjectShortName">WB_RegWrite</obj_property>
-   </wvobject>
-   <wvobject fp_name="/sim_cpu_lab2/CPU/WB_WA" type="array">
-      <obj_property name="ElementShortName">WB_WA[4:0]</obj_property>
-      <obj_property name="ObjectShortName">WB_WA[4:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/sim_cpu_lab2/CPU/WB_WD" type="array">
-      <obj_property name="ElementShortName">WB_WD[31:0]</obj_property>
-      <obj_property name="ObjectShortName">WB_WD[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/sim_cpu_lab2/CPU/SPC/RE" type="logic">
-      <obj_property name="ElementShortName">RE</obj_property>
-      <obj_property name="ObjectShortName">RE</obj_property>
-   </wvobject>
-   <wvobject fp_name="/sim_cpu_lab2/CPU/SPC/WE" type="logic">
-      <obj_property name="ElementShortName">WE</obj_property>
-      <obj_property name="ObjectShortName">WE</obj_property>
-   </wvobject>
-   <wvobject fp_name="/sim_cpu_lab2/CPU/SPC/WD" type="array">
-      <obj_property name="ElementShortName">WD[31:0]</obj_property>
-      <obj_property name="ObjectShortName">WD[31:0]</obj_property>
+   <wvobject fp_name="/sim_cpu_lab2/CPU/BRU/BR_IR" type="array">
+      <obj_property name="ElementShortName">BR_IR[31:0]</obj_property>
+      <obj_property name="ObjectShortName">BR_IR[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/sim_cpu_lab2/CPU/SPC/ext_uart_buffer" type="array">
       <obj_property name="ElementShortName">ext_uart_buffer[7:0]</obj_property>
@@ -93,26 +89,6 @@
    <wvobject fp_name="/sim_cpu_lab2/CPU/SPC/ext_uart_busy" type="logic">
       <obj_property name="ElementShortName">ext_uart_busy</obj_property>
       <obj_property name="ObjectShortName">ext_uart_busy</obj_property>
-   </wvobject>
-   <wvobject fp_name="/sim_cpu_lab2/rxd" type="logic">
-      <obj_property name="ElementShortName">rxd</obj_property>
-      <obj_property name="ObjectShortName">rxd</obj_property>
-   </wvobject>
-   <wvobject fp_name="/sim_cpu_lab2/CPU/GRF/DataReg[8]" type="array">
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="ElementShortName">[8][31:0]</obj_property>
-      <obj_property name="ObjectShortName">[8][31:0]</obj_property>
-      <obj_property name="label">t0</obj_property>
-   </wvobject>
-   <wvobject fp_name="/sim_cpu_lab2/CPU/GRF/DataReg[4]" type="array">
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="ElementShortName">[4][31:0]</obj_property>
-      <obj_property name="ObjectShortName">[4][31:0]</obj_property>
-      <obj_property name="label">a0</obj_property>
-   </wvobject>
-   <wvobject fp_name="/sim_cpu_lab2/CPU/icache/hit" type="logic">
-      <obj_property name="ElementShortName">hit</obj_property>
-      <obj_property name="ObjectShortName">hit</obj_property>
    </wvobject>
    <wvobject fp_name="/sim_cpu_lab2/base_ram_data" type="array">
       <obj_property name="ElementShortName">base_ram_data[31:0]</obj_property>
@@ -162,20 +138,36 @@
       <obj_property name="ElementShortName">ext_ram_we_n</obj_property>
       <obj_property name="ObjectShortName">ext_ram_we_n</obj_property>
    </wvobject>
-   <wvobject fp_name="/sim_cpu_lab2/CPU/icache/send_req" type="logic">
-      <obj_property name="ElementShortName">send_req</obj_property>
-      <obj_property name="ObjectShortName">send_req</obj_property>
+   <wvobject fp_name="/sim_cpu_lab2/CPU/issue_log/head" type="array">
+      <obj_property name="ElementShortName">head[3:0]</obj_property>
+      <obj_property name="ObjectShortName">head[3:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/sim_cpu_lab2/CPU/icache/ready_resp" type="logic">
-      <obj_property name="ElementShortName">ready_resp</obj_property>
-      <obj_property name="ObjectShortName">ready_resp</obj_property>
+   <wvobject fp_name="/sim_cpu_lab2/CPU/issue_log/tail" type="array">
+      <obj_property name="ElementShortName">tail[3:0]</obj_property>
+      <obj_property name="ObjectShortName">tail[3:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/sim_cpu_lab2/CPU/icache/state" type="logic">
-      <obj_property name="ElementShortName">state</obj_property>
-      <obj_property name="ObjectShortName">state</obj_property>
+   <wvobject fp_name="/sim_cpu_lab2/CPU/issue_log/cnt" type="array">
+      <obj_property name="ElementShortName">cnt[3:0]</obj_property>
+      <obj_property name="ObjectShortName">cnt[3:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/sim_cpu_lab2/CPU/icache/way_write_end" type="array">
-      <obj_property name="ElementShortName">way_write_end[1:0]</obj_property>
-      <obj_property name="ObjectShortName">way_write_end[1:0]</obj_property>
+   <wvobject fp_name="/sim_cpu_lab2/CPU/RGF/DataReg[16]" type="array">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">[16][31:0]</obj_property>
+      <obj_property name="ObjectShortName">[16][31:0]</obj_property>
+      <obj_property name="label">s0</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_lab2/CPU/RGF/DataReg[4]" type="array">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">[4][31:0]</obj_property>
+      <obj_property name="ObjectShortName">[4][31:0]</obj_property>
+      <obj_property name="label">a0</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_lab2/CPU/DM_stall" type="logic">
+      <obj_property name="ElementShortName">DM_stall</obj_property>
+      <obj_property name="ObjectShortName">DM_stall</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_lab2/CPU/LSU/MEM_D_r" type="array">
+      <obj_property name="ElementShortName">MEM_D_r[31:0]</obj_property>
+      <obj_property name="ObjectShortName">MEM_D_r[31:0]</obj_property>
    </wvobject>
 </wave_config>

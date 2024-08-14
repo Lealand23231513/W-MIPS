@@ -3,16 +3,46 @@ CPU Abstract
 
 ## Test Result
 
+## 100M(stable)
+
 | test name | STREAM | MATRIX | CRYPTONIGHT |  sum  |
 | :-------: | :----: | :----: | :---------: | :---: |
-|  time/s   | 0.045  |  0.091 |    0.170    | 0.306 |
+|  time/s   | 0.079  | 0.143  |    0.320    | 0.542 |
+
+### 140M(stable)
+
+| test name | STREAM | MATRIX | CRYPTONIGHT |  sum  |
+| :-------: | :----: | :----: | :---------: | :---: |
+|  time/s   | 0.056  | 0.102  |    0.228    | 0.386 |
+
+### 200M
+
+| test name | STREAM | MATRIX | CRYPTONIGHT |  sum  |
+| :-------: | :----: | :----: | :---------: | :---: |
+|  time/s   | 0.043  | 0.085  |    0.176    | 0.304 |
+
+### 250M
+
+| test name | STREAM | MATRIX | CRYPTONIGHT |  sum  |
+| :-------: | :----: | :----: | :---------: | :---: |
+|  time/s   | 0.038  | 0.078  |    0.153    | 0.269 |
+
+### 255M
+
+| test name | STREAM | MATRIX | CRYPTONIGHT |  sum  |
+| :-------: | :----: | :----: | :---------: | :---: |
+|  time/s   | 0.037  | 0.077  |    0.150    | 0.264 |
 
 ## feature
-
-- 6 stage pipeline(PF, IF, ID, EX(EM1), MEM(EM2), WB(WB2))
+- this submit: 140M
+- frontend: 4 stage pipeline(PF, IF, ID, IS)
+- backend: 
+- LSU(2 stage)(AG, MEM) (merge with EMU(2 stage)(EM1, EM2) )
+- EXU(1 stage)(EX)
+- BRU(1 stage)(BR)
+- ROU(2 stage)(RO, WB)
+- commit: 2
 - In-order
-- 225M
+- 100M, 140M, 200M, 250M, 255M
 - icache
-- Independent multiplication stages(EM1, EM2)
-- bypass, from EX, EM1, EM2, MEM, WB, WB2 to ID
 - Dynamic prediction

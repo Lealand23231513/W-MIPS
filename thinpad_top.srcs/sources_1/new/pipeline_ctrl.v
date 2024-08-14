@@ -19,61 +19,104 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-
+`include "global_def.vh"
 module pipeline_ctrl(
     input wire clk,reset,
     input wire IC_stall,
     input wire DM_stall,
-    input wire ID_EXload,
     input wire ID_JMP,
-    input wire EX_BranchTaken,
-    input wire EX_PredictBranch,
-    input wire EX_JR,
-    input wire ID_MCY,
-    input wire ID_EM1_r,
+    input wire BR_BranchTaken,
+    input wire BR_PredictBranch,
+    input wire BR_JR,
+    input wire [2:0] IS_FUID,
+    input wire [1:0] FID_hit,
+    input wire [1:0] commit,
+    
+    input wire EX_relate,
+    input wire EXF_relate,
+    input wire AG_relate,
+    input wire MEM_relate,
+    input wire LSF_relate,
 
-    output wire IFU_en,
+    output wire PFU_en,
     output wire PF2IF_en,
     output wire icache_en,
     output wire IF2ID_en,
+    output wire ID2IS_en,
     output wire ID2EX_en,
-    output wire EX2MEM_en,
-    output wire MEM2WB_en,
-    output wire ID2EM1_en,
-    output wire EM12EM2_en,
-    output wire EM22WB2_en,
+    output wire EX2EXF_en,
+    output wire ID2AG_en,
+    output wire AG2MEM_en,
+    output wire MEM2LSF_en,
+    output wire ID2BR_en,
+    output wire RO2WB_en,
     
-    output wire PF2IF_flush,
-    output wire IF2ID_bubble,
-    output wire ID2EX_bubble,
-    output wire EX2MEM_bubble,
-    output wire MEM2WB_bubble,
-    output wire ID2EM1_bubble,
-    output wire EM12EM2_bubble,
-    output wire EM22WB2_bubble
+    output wire issue,
+    output wire issue_wr_en,
+    output wire [1:0]issue_rd_en,
+    
+    
+    output wire PF2IF_cl,
+    output wire IF2ID_cl,
+    output wire ID2IS_cl,
+    output wire ID2EX_cl,
+    output wire EX2EXF_cl,
+    output wire ID2AG_cl,
+    output wire AG2MEM_cl,
+    output wire MEM2LSF_cl,
+    output wire ID2BR_cl,
+    output wire RO2WB_cl
     );
     wire PredictErr;
-    assign PredictErr=(EX_BranchTaken!=EX_PredictBranch);
-    assign IFU_en=!ID_EXload&!DM_stall&!IC_stall&!ID_EM1_r;
-    assign PF2IF_en=!ID_EXload&!DM_stall&!IC_stall&!ID_EM1_r;
-    assign icache_en=!ID_EXload&!DM_stall&!ID_EM1_r;
-    assign IF2ID_en=!ID_EXload&!IC_stall&!DM_stall&!ID_EM1_r;
-    assign ID2EX_en=(!IC_stall|ID_EXload|ID_EM1_r)&!DM_stall;
-    assign EX2MEM_en=(!IC_stall|ID_EXload|ID_EM1_r)&!DM_stall;
-    assign MEM2WB_en=(!IC_stall|ID_EXload|ID_EM1_r)&!DM_stall;
-    assign ID2EM1_en=(!IC_stall|ID_EXload|ID_EM1_r)&!DM_stall;
-    assign EM12EM2_en=(!IC_stall|ID_EXload|ID_EM1_r)&!DM_stall;
-    assign EM22WB2_en=(!IC_stall|ID_EXload|ID_EM1_r)&!DM_stall;
+//    wire data_conflict_check;//1: can solve
+    wire EXF_commit, LSF_commit;
+    wire EXU_permit, LSU_permit, BRU_permit;
+    wire IS_ready;
+    wire issue_to_EXU, issue_to_LSU, issue_to_BRU;
+    wire IS_access_permit;
+    wire FU_permission[3:0];
+    assign PredictErr=(BR_BranchTaken!=BR_PredictBranch);
+    assign IS_access_permit=FU_permission[IS_FUID];
+    assign FU_permission[`EXU_ID]=EXU_permit;
+    assign FU_permission[`LSU_ID]=LSU_permit;
+    assign FU_permission[`BRU_ID]=BRU_permit;
+    assign issue_to_EXU=(IS_FUID==`EXU_ID);
+    assign issue_to_LSU=(IS_FUID==`LSU_ID);
+    assign issue_to_BRU=(IS_FUID==`BRU_ID);
+    assign EXF_commit=commit[`EXU_ID];
+    assign LSF_commit=commit[`LSU_ID];
+    assign EXU_permit=EXF_commit;
+    assign LSU_permit=LSF_commit&!DM_stall;
+    assign BRU_permit=1;
+    assign IS_ready=!AG_relate&!(DM_stall&MEM_relate);
     
-    
-    assign PF2IF_flush=ID_JMP|PredictErr|EX_JR;
-    assign IF2ID_bubble=PredictErr|EX_JR;
-    assign ID2EX_bubble=ID_EXload|ID_EM1_r|ID_MCY;
-    assign ID2EM1_bubble=ID_EXload|ID_EM1_r|!ID_MCY;
-    assign EM12EM2_bubble=0;
-    assign EX2MEM_bubble=0;
-    assign MEM2WB_bubble=0;
-    assign EM22WB2_bubble=0;
-    
+    assign RO2WB_en=1;
+    assign RO2WB_cl=0;
+    assign EX2EXF_en=EXF_commit;
+    assign EX2EXF_cl=0;
+    assign ID2EX_en=EXF_commit;
+    assign ID2EX_cl=!issue_to_EXU|IC_stall|!IS_ready;
+    assign MEM2LSF_en=LSF_commit;
+    assign MEM2LSF_cl=DM_stall;
+    assign AG2MEM_en=LSF_commit&!DM_stall;
+    assign AG2MEM_cl=0;
+    assign ID2AG_en=LSF_commit&!DM_stall;
+    assign ID2AG_cl=!issue_to_LSU|IC_stall|!IS_ready;
+    assign ID2BR_en=!IC_stall&IS_ready&IS_access_permit;
+    assign ID2BR_cl=!issue_to_BRU;
+    assign ID2IS_en=!IC_stall&IS_ready&IS_access_permit;
+    assign ID2IS_cl=PredictErr|BR_JR;
+    assign IF2ID_en=!IC_stall&IS_ready&IS_access_permit;
+    assign IF2ID_cl=PredictErr|BR_JR;
+    assign PF2IF_en=!IC_stall&IS_ready&IS_access_permit;
+    assign PF2IF_cl=ID_JMP|PredictErr|BR_JR;
+    assign PFU_en=!IC_stall&IS_ready&IS_access_permit;
+    assign icache_en=IS_ready&IS_access_permit;
+    assign issue=!IC_stall&IS_ready&IS_access_permit;
+    assign issue_wr_en=issue&!issue_to_BRU;
+
+    assign issue_rd_en[0]=FID_hit[0];
+    assign issue_rd_en[1]=FID_hit[0]&FID_hit[1];
+
     
 endmodule

@@ -76,51 +76,146 @@ module cpu(
     output wire video_clk,         //像素时钟输出
     output wire video_de           //行数据有效信号，用于区分消隐区
     );
-    reg reset;
-    wire locked, clk_80M, clk_100M, clk_140M, clk_200M, clk_225M, clk_240M;
-    wire clk;
+    reg  reset;
+    wire locked, clk_80M, clk_100M, clk_140M, clk_200M, clk_255M, clk_260M, clk_280M, clk_300M, clk;
     parameter CLK_80M_FREQ=80000000;
     parameter CLK_100M_FREQ=100000000;
     parameter CLK_140M_FREQ=140000000;
     parameter CLK_200M_FREQ=200000000;
     parameter CLK_225M_FREQ=225000000;
-    parameter CLK_240M_FREQ=240000000;
     parameter CLK_250M_FREQ=250000000;
+    parameter CLK_255M_FREQ=255000000;
+    parameter CLK_260M_FREQ=260000000;
+    parameter CLK_300M_FREQ=300000000;
+    parameter CLK_280M_FREQ=280000000;
+    `ifdef CLK_300M
+    parameter CLK_FREQ=CLK_300M_FREQ;
+    assign clk=clk_300M;
+    clk_gen_300M clk_gen_300M
+    (
+        // Clock out ports
+        .clk_300M(clk_300M),     // output clk_250M
+        // Status and control signals
+        .reset(reset_btn), // input reset
+        .locked(locked),       // output locked
+       // Clock in ports
+        .clk_in1(clk_50M)
+     ); 
+    `elsif CLK_280M
+    parameter CLK_FREQ=CLK_280M_FREQ;
+    assign clk=clk_280M;
+    clk_gen_280M clk_gen_280M
+    (
+        // Clock out ports
+        .clk_280M(clk_280M),     // output clk_250M
+        // Status and control signals
+        .reset(reset_btn), // input reset
+        .locked(locked),       // output locked
+       // Clock in ports
+        .clk_in1(clk_50M)
+     ); 
+    `elsif CLK_260M
+    parameter CLK_FREQ=CLK_260M_FREQ;
+    assign clk=clk_260M;
+    clk_gen_260M clk_gen_260M
+    (
+        // Clock out ports
+        .clk_260M(clk_260M),     // output clk_250M
+        // Status and control signals
+        .reset(reset_btn), // input reset
+        .locked(locked),       // output locked
+       // Clock in ports
+        .clk_in1(clk_50M)
+     ); 
+    `elsif CLK_255M
+    parameter CLK_FREQ=CLK_255M_FREQ;
+    assign clk=clk_255M;
+    clk_gen_255M clk_gen_255M
+    (
+        // Clock out ports
+        .clk_255M(clk_255M),     // output clk_255M
+        // Status and control signals
+        .reset(reset_btn), // input reset
+        .locked(locked),       // output locked
+       // Clock in ports
+        .clk_in1(clk_50M)
+     ); 
+    `elsif CLK_250M
+    parameter CLK_FREQ=CLK_250M_FREQ;
+    assign clk=clk_250M;
+    clk_gen_250M clk_gen_250M
+    (
+        // Clock out ports
+        .clk_250M(clk_250M),     // output clk_250M
+        // Status and control signals
+        .reset(reset_btn), // input reset
+        .locked(locked),       // output locked
+       // Clock in ports
+        .clk_in1(clk_50M)
+     ); 
+    `elsif CLK_225M
+    parameter CLK_FREQ=CLK_225M_FREQ;
+    assign clk=clk_225M;
+    clk_gen_225M clk_gen_225M
+    (
+        // Clock out ports
+        .clk_225M(clk_225M),     // output clk_250M
+        // Status and control signals
+        .reset(reset_btn), // input reset
+        .locked(locked),       // output locked
+       // Clock in ports
+        .clk_in1(clk_50M)
+     ); 
+    `elsif CLK_200M
+    parameter CLK_FREQ=CLK_200M_FREQ;
+    assign clk=clk_200M;
     pll_example clock_gen 
      (
       // Clock in ports
-      .clk_in1(clk_50M),  // 外部时钟输入
+      .clk_in1(clk_50M),  
       // Clock out ports
       .clk_100M(clk_100M),
-//      .clk_140M(clk_140M), // 时钟输出1，频率在IP配置界面中设置
-      .clk_225M(clk_225M),
-//      .clk_240M(clk_240M),
-//      .clk_250M(clk_250M),
+      .clk_140M(clk_140M), 
       .clk_200M(clk_200M),
       // Status and control signals
-      .reset(reset_btn), // PLL复位输入
-      .locked(locked)    // PLL锁定指示输出，"1"表示时钟稳定，
-                         // 后级电路复位信号应当由它生成（见下）
+      .reset(reset_btn), 
+      .locked(locked)    
+                         
      );
-    `ifdef CLK_250M
-    assign clk=clk_250M;
-    parameter CLK_FREQ=CLK_250M_FREQ;   
-    `elsif CLK_240M
-    assign clk=clk_240M;
-    parameter CLK_FREQ=CLK_240M_FREQ;   
-    `elsif CLK_225M
-    assign clk=clk_225M;
-    parameter CLK_FREQ=CLK_225M_FREQ;
-    `elsif CLK_200M
-    assign clk=clk_200M;
-    parameter CLK_FREQ=CLK_200M_FREQ;
     `elsif CLK_100M
-    assign clk=clk_100M;
     parameter CLK_FREQ=CLK_100M_FREQ;
+    assign clk=clk_100M;
+    pll_example clock_gen 
+     (
+      // Clock in ports
+      .clk_in1(clk_50M),  
+      // Clock out ports
+      .clk_100M(clk_100M),
+      .clk_140M(clk_140M), 
+      .clk_200M(clk_200M),
+      // Status and control signals
+      .reset(reset_btn), 
+      .locked(locked)    
+                         
+     );
     `else
-    assign clk=clk_140M;
     parameter CLK_FREQ=CLK_140M_FREQ;
+    assign clk=clk_140M;
+    pll_example clock_gen 
+     (
+      // Clock in ports
+      .clk_in1(clk_50M),  
+      // Clock out ports
+      .clk_100M(clk_100M),
+      .clk_140M(clk_140M), 
+      .clk_200M(clk_200M),
+      // Status and control signals
+      .reset(reset_btn), 
+      .locked(locked)    
+                         
+     );
     `endif
+
 //     异步复位，同步释放，将locked信号转为后级电路的复位reset
     always@(posedge clk or negedge locked) begin
         if(~locked) begin
@@ -135,12 +230,6 @@ module cpu(
     assign clk_140m=clk_140M;
     assign clk_core=clk;
     `endif
-    reg core_stage;
-//    always @(posedge clk_200M, posedge reset_200M) begin
-//        if (reset_200M) core_stage<=0;
-//        else core_stage<=~core_stage;
-//    end
-//    assign core_stage=~clk_100M;
     //IO_BUFFER
     wire [31:0]base_ram_data_R;
     wire [31:0]base_ram_data_W;
@@ -169,7 +258,7 @@ module cpu(
     
     //wires
     //params
-    wire IFU_EN;
+    wire PFU_en;
     parameter [4:0]REG_RA=5'd31;
     //icache bus
     wire IC_send_req;
@@ -223,6 +312,7 @@ module cpu(
     wire [31:0] ID_PC;
     wire [31:0] PC_next;
     wire [31:0] EX_PC;
+    wire [31:0] BR_PC;
     wire [31:0] EM1_PC;
     wire [31:0] EM2_PC;
     wire [31:0] WB2_PC;
@@ -240,15 +330,15 @@ module cpu(
     //control signals
     wire IM_DM_clash;
     
-    wire EX_BranchTaken;
+    wire BR_BranchTaken;
     wire ID_JMP;
     wire EX_JMP;
     wire ID_JR;
-    wire EX_JR;
+    wire BR_JR;
     wire[3:0] ID_ALUOP;
     wire[3:0] EX_ALUOP;
     wire [2:0] ID_BTYPE;
-    wire [2:0] EX_BTYPE;
+    wire [2:0] BR_BTYPE;
     wire ID_MemToReg;
     wire EX_MemToReg;
     wire MEM_MemToReg;
@@ -309,8 +399,8 @@ module cpu(
     wire WB2_EM_D2ID_RD1;
     wire WB2_EM_D2ID_RD2;
     
-    wire [4:0] rs;
-    wire [4:0] rt;
+    wire [4:0] IS_RA1;
+    wire [4:0] IS_RA2;
     wire [4:0] rd;
     wire [15:0] offset;
     wire [4:0] ID_WA;
@@ -322,8 +412,8 @@ module cpu(
     wire [4:0] WB_WA;
 
     wire [31:0] WB_WD;
-    wire [31:0] ID_RD1_ori;
-    wire [31:0] ID_RD2_ori;
+    wire [31:0] RD1_r;
+    wire [31:0] RD2_r;
     wire [31:0] ID_RD1;
     wire [31:0] ID_RD2;
     wire [31:0] EX_RD1, EX_RD1_old, EX_RD1_new;
@@ -331,8 +421,8 @@ module cpu(
     wire [31:0] EM1_RD1, EM1_RD2;
     wire [4:0] EX_SA;
 
-    wire IF2ID_bubble;
-    wire ID2EX_bubble;
+    wire IF2ID_cl;
+    wire ID2EX_cl;
     wire EX2MEM_bubble;
     wire MEM2WB_bubble;
     wire [31:0] ID_EXTD;
@@ -347,7 +437,6 @@ module cpu(
     wire [31:0] ALU_Res;
     wire EX_ALU_DONE;
     wire OF;
-    (*mark_debug = "true"*)wire [31:0] MEM_MemDout;
     wire [31:0] WB_MemDout;
     wire DM_done;
     wire DM_stall;
@@ -370,32 +459,125 @@ module cpu(
     wire [1:0] DM_dst_req;
     wire ram_busy[3:0];
     wire ram_will_busy[3:0];
-    wire [31:0] EX_BranchAddr;
+    wire [31:0] BR_BranchAddr;
     wire PF_PredictBranch;
     wire IF_PredictBranch;
     wire ID_PredictBranch;
-    wire EX_PredictBranch;
+    wire BR_PredictBranch;
     wire [31:0] PF_PredictBranchAddr, IF_PredictBranchAddr, ID_PredictBranchAddr;
     wire [3:0] DM_hold_resp;
-    wire PF2IF_flush;
+    wire PF2IF_cl;
     wire [15:0]EX_IR_offset;
     wire [31:0]EX_IR_offset_se;
     wire icache_en;
     wire [31:0] LUI_Res, JAL_Res;
     wire ID_MCY, EM1_MCY, EM2_MCY;
     wire ID2EM1_en, EM12EM2_en, EM22WB2_en;
-    wire ID2EM1_bubble, EM12EM2_bubble, EM22WB2_bubble;
+    wire ID2EM1_cl, EM12EM2_cl, EM22WB2_bubble;
     wire [31:0] EM1_ll,EM1_lh,EM1_hl,EM1_hh, EM2_ll,EM2_lh,EM2_hl,EM2_hh;
     wire [31:0] EM2_LO;
     wire [31:0] EM2_EM_D, WB2_EM_D;
-    wire RGF_WE;
-    wire [4:0] RGF_WA;
-    wire [31:0] RGF_WD;
+    wire RGF_WE[1:0];
+    wire [4:0] RGF_WA[1:0];
+    wire [31:0] RGF_WD[1:0];
     wire ID_EM1_r;
-    assign ram_busy[0]=0;
-    assign ram_busy[3]=0;
-    assign ram_will_busy[0]=0;
-    assign ram_will_busy[3]=0;
+    wire issue;
+    wire [1:0] issue_rd_ori;
+    wire [1:0]issue_wr, issue_rd;
+    wire head_PC_valid;
+    wire [63:0] PC_issue_st;
+    wire [63:0] head_PC_st;
+    wire [1:0]wr_en;
+    wire [1:0]rd_en;
+    wire [1:0]RGF_WE_st;
+    wire [9:0] RGF_WA_st;
+    wire [63:0] RGF_WD_st;
+    wire ID_MEM_loadUse;
+    wire [2:0] IS_FUID;
+    wire [`FID_WIDTH-1:0]FID_curr;
+    wire issue_wr_en;
+    wire [1:0] issue_rd_en;
+    wire [1:0] FID_hit;
+    wire [`FID_WIDTH:0] EX_FID_bus;
+    wire [`FID_WIDTH:0] EXF_FID_bus;
+    wire [`FID_WIDTH:0] EM1_FID_bus;
+    wire [`FID_WIDTH:0] EM2_FID_bus;
+    wire [`FID_WIDTH:0] EMF_FID_bus;
+    wire [`FID_WIDTH:0] AG_FID_bus;
+    wire [`FID_WIDTH:0] MEM_FID_bus;
+    wire [`FID_WIDTH:0] LSF_FID_bus;
+    wire [`ISSUE_LOG_DEPTH_WIDTH-1:0] EX_FID_idx;
+    wire [`ISSUE_LOG_DEPTH_WIDTH-1:0] EXF_FID_idx;
+    wire [`ISSUE_LOG_DEPTH_WIDTH-1:0] EM1_FID_idx;
+    wire [`ISSUE_LOG_DEPTH_WIDTH-1:0] EM2_FID_idx;
+    wire [`ISSUE_LOG_DEPTH_WIDTH-1:0] EMF_FID_idx;
+    wire [`ISSUE_LOG_DEPTH_WIDTH-1:0] AG_FID_idx;
+    wire [`ISSUE_LOG_DEPTH_WIDTH-1:0] MEM_FID_idx;
+    wire [`ISSUE_LOG_DEPTH_WIDTH-1:0] LSF_FID_idx;
+    wire RO2WB_en, RO2WB_cl;
+    wire [`FU2RO_BUS_WIDTH-1:0] EX2RO_bus;
+    wire [`FU2RO_BUS_WIDTH-1:0] EM2RO_bus;
+    wire [`FU2RO_BUS_WIDTH-1:0] LS2RO_bus;
+    
+    wire [1:0] commit;//0:EXF; 1:EMF; 2:LSF
+    
+    
+    wire WB_WE1;
+    wire WB_WE2;
+    wire WB_WE3;
+    wire [4:0] WB_WA1;
+    wire [4:0] WB_WA2;
+    wire [4:0] WB_WA3;
+    wire [31:0] WB_WD1;
+    wire [31:0] WB_WD2;
+    wire [31:0] WB_WD3;
+    wire EM22EMF_cl;
+    wire ID2AG_cl;
+    wire AG2MEM_cl;
+    wire MEM2LSF_cl;
+    wire ID2BR_cl;
+    wire EX2EXF_en;
+    wire EM22EMF_en;
+    wire ID2AG_en;
+    wire AG2MEM_en;
+    wire MEM2LSF_en;
+    wire ID2BR_en;
+    wire [`RELATE_BUS_WIDTH-1:0] EX_rel_bus;
+    wire [`RELATE_BUS_WIDTH-1:0] EXF_rel_bus;
+    wire [`RELATE_BUS_WIDTH-1:0] EM1_rel_bus;
+    wire [`RELATE_BUS_WIDTH-1:0] EM2_rel_bus;
+    wire [`RELATE_BUS_WIDTH-1:0] EMF_rel_bus;
+    wire [`RELATE_BUS_WIDTH-1:0] AG_rel_bus;
+    wire [`RELATE_BUS_WIDTH-1:0] MEM_rel_bus;
+    wire [`RELATE_BUS_WIDTH-1:0] LSF_rel_bus;
+    wire [`ID2LS_BUS_WIDTH-1:0] ID2LS_bus;
+    wire [`MEM_SEND_BUS_WIDTH-1:0] base_send_bus;
+    wire [`MEM_RECV_BUS_WIDTH-1:0] base_recv_bus;
+    wire [`MEM_SEND_BUS_WIDTH-1:0] ext_send_bus;
+    wire [`MEM_RECV_BUS_WIDTH-1:0] ext_recv_bus;
+    wire [`MEM_SEND_BUS_WIDTH-1:0] SPC_send_bus;
+    wire [`MEM_RECV_BUS_WIDTH-1:0] SPC_recv_bus;
+    wire [`ID2EM_BUS_WIDTH-1:0] ID2EM_bus;
+    wire [`ID2EX_BUS_WIDTH-1:0] ID2EX_bus;
+    wire [`ID2BR_BUS_WIDTH-1:0] ID2BR_bus;
+    wire EX_relate;
+    wire EXF_relate;
+    wire EM1_relate;
+    wire EM2_relate;
+    wire EMF_relate;
+    wire AG_relate;
+    wire MEM_relate;
+    wire LSF_relate;
+    
+    wire to_IS_RD1;
+    wire to_IS_RD2;
+    wire [31:0] to_IS_RD1_D;
+    wire [31:0] to_IS_RD2_D;
+    wire [31:0] BR_JR_PC;
+    wire [31:0] ID_JMP_PC;
+    wire ID2IS_en, ID2IS_cl;
+    wire [`IF2ID_BUS_WIDTH-1:0] IF2ID_bus;
+    wire [32:0] dirty_bus;
     //test
     wire [7:0] number;
     //stage PF
@@ -403,28 +585,28 @@ module cpu(
     PFU PFU(
         .clk(clk),
         .reset(reset),
-        .en(IFU_EN),
-        .EX_BranchTaken(EX_BranchTaken),
+        .en(PFU_en),
+        .BR_BranchTaken(BR_BranchTaken),
         .IF_PredictBranch(IF_PredictBranch),
-        .EX_PredictBranch(EX_PredictBranch),
+        .BR_PredictBranch(BR_PredictBranch),
         .IF_PredictBranchAddr(IF_PredictBranchAddr),
         .ID_JMP(ID_JMP),
-        .ID_JMP_PC({ID_PC[31:28], ID_IR[25:0], 2'd0}),
-        .EX_JR(EX_JR),
-        .EX_JR_PC(EX_RD1),
-        .EX_BranchAddr(EX_BranchAddr),
-        .EX_PC(EX_PC),
+        .ID_JMP_PC(ID_JMP_PC),
+        .BR_JR(BR_JR),
+        .BR_JR_PC(BR_JR_PC),
+        .BR_BranchAddr(BR_BranchAddr),
+        .BR_PC(BR_PC),
         .pc(PF_PC)
     );
     BTB BTB(
         .clk(clk),
         .reset(reset),
         .PC(PF_PC),
-        .EX_Btype(EX_BTYPE),
-        .EX_BranchTaken(EX_BranchTaken),
-        .EX_PredictBranch(EX_PredictBranch),
-        .EX_PC(EX_PC),
-        .EX_BranchAddr(EX_BranchAddr),
+        .BR_BTYPE(BR_BTYPE),
+        .BR_BranchTaken(BR_BranchTaken),
+        .BR_PredictBranch(BR_PredictBranch),
+        .BR_PC(BR_PC),
+        .BR_BranchAddr(BR_BranchAddr),
         .PredictBranch(PF_PredictBranch),
         .PredictBranchAddr(PF_PredictBranchAddr)
     );
@@ -439,7 +621,7 @@ module cpu(
         .reset(reset),
         .PF2IF_en(PF2IF_en),
         .icache_en(icache_en),
-        .flush(PF2IF_flush),
+        .flush(PF2IF_cl),
         .stall(IC_stall),
         //cpu
         .PF_PC(PF_PC),
@@ -455,14 +637,15 @@ module cpu(
         .start_paddr_wd_req(IC_start_paddr_wd_req),
         .dst_req(IC_dst_req),
         .ready_resp(IC_ready_resp[IC_dst_req]),
-        .data_bus_resp(IC_data_bus_resp[IC_dst_req])
+        .data_bus_resp(IC_data_bus_resp[IC_dst_req]),
+        .dirty_bus(dirty_bus)
     );
 
     IF2ID IF2ID(
         .clk(clk),
         .reset(reset),
         .en(IF2ID_en),
-        .bubble(IF2ID_bubble),
+        .bubble(IF2ID_cl),
         .IF_PC(IF_PC),
         .IF_IR(IF_IR),
         .ID_PC(ID_PC),
@@ -473,341 +656,217 @@ module cpu(
         .PredictBranchAddr_o(ID_PredictBranchAddr)
     );
     
-    //STAGE ID
-    assign rs=ID_IR[25:21];
-    assign rt=ID_IR[20:16];
-    assign rd=ID_IR[15:11];
-    assign offset=ID_IR[15:0];
-    assign ID_WA=ID_JAL?REG_RA:ID_RegDst?rd:rt;
-    assign ID_RD1=EX_ALUD2ID_RD1?EX_ALUD
-                :EM2_EM_D2ID_RD1?EM2_EM_D
-                :MEM_ALUD2ID_RD1?MEM_ALUD
-                :MEM_MemDout2ID_RD1?MEM_MemDout
-                :WB2_EM_D2ID_RD1?WB2_EM_D
-                :WB_WD2ID_RD1?WB_WD:ID_RD1_ori;
-    assign ID_RD2=EX_ALUD2ID_RD2?EX_ALUD
-                :EM2_EM_D2ID_RD2?EM2_EM_D
-                :MEM_ALUD2ID_RD2?MEM_ALUD
-                :MEM_MemDout2ID_RD2?MEM_MemDout
-                :WB2_EM_D2ID_RD2?WB2_EM_D
-                :WB_WD2ID_RD2?WB_WD:ID_RD2_ori;
-    //controler
-    controler controler(
-        .IR(ID_IR),
-        .ALUOP(ID_ALUOP),
-        .BTYPE(ID_BTYPE),
-        .MemToReg(ID_MemToReg),
-        .MemWrite(ID_MemWrite),
-        .ALUSource(ID_ALUSource),
-        .RegWrite(ID_RegWrite),
-        .RegDst(ID_RegDst),
-        .EXTOP(EXTOP),
-        .LUI(ID_LUI),
-        .JMP(ID_JMP),
-        .JR(ID_JR),
-        .JAL(ID_JAL),
-        .MemLoad(ID_MemLoad),
-        .RA1_READ(ID_RA1_READ),
-        .RA2_READ(ID_RA2_READ),
-        .LB_SB(ID_LB_SB),
-        .POF(ID_POF),
-        .USE_SA(ID_USE_SA),
-        .ID_RegUse(ID_RegUse),
-        .MCY(ID_MCY)
+    //IDU
+    assign IF2ID_bus={ID_PC, ID_IR, ID_PredictBranch, ID_PredictBranchAddr};
+    IDU IDU(
+        .clk(clk), 
+        .reset(reset),
+        .ID2IS_en(ID2IS_en),
+        .ID2IS_cl(ID2IS_cl),
+        
+        .ID_JMP(ID_JMP),
+        .ID_JMP_PC(ID_JMP_PC),
+        .IS_RA1(IS_RA1),
+        .IS_RA2(IS_RA2),
+        .IS_RA1_READ(IS_RA1_READ),
+        .IS_RA2_READ(IS_RA2_READ),
+        .IS_FUID(IS_FUID),
+        .RD1_r(RD1_r),
+        .RD2_r(RD2_r),
+        .FID_curr(FID_curr),
+        .issue(issue),
+        .to_IS_RD1(to_IS_RD1),
+        .to_IS_RD2(to_IS_RD2),
+        .to_IS_RD1_D(to_IS_RD1_D),
+        .to_IS_RD2_D(to_IS_RD2_D),
+        
+        .IF2ID_bus(IF2ID_bus),
+        .ID2EX_bus(ID2EX_bus),
+        .ID2LS_bus(ID2LS_bus),
+        .ID2BR_bus(ID2BR_bus)
+    );
+    
+
+    //EXU
+    EXU EXU(
+        .clk(clk),
+        .reset(reset),
+        .ID2EX_en(ID2EX_en),
+        .EX2EXF_en(EX2EXF_en),
+        .ID2EX_cl(ID2EX_cl),
+        .EX2EXF_cl(EX2EXF_cl),
+        
+        .EX_rel_bus(EX_rel_bus),
+        .EXF_rel_bus(EXF_rel_bus),
+        
+        .ID2EX_bus(ID2EX_bus),
+        .EX2RO_bus(EX2RO_bus),
+        
+        .EX_FID_bus(EX_FID_bus),
+        .EXF_FID_bus(EXF_FID_bus),
+        .EX_FID_idx(EX_FID_idx),
+        .EXF_FID_idx(EXF_FID_idx)
+    );
+    //EMU
+//    EMU EMU(
+//        .clk(clk),
+//        .reset(reset),
+//        .ID2EM1_en(ID2EM1_en),
+//        .EM12EM2_en(EM12EM2_en),
+//        .EM22EMF_en(EM22EMF_en),
+//        .ID2EM1_cl(ID2EM1_cl),
+//        .EM12EM2_cl(EM12EM2_cl),
+//        .EM22EMF_cl(EM22EMF_cl),
+        
+//        .EM1_rel_bus(EM1_rel_bus),
+//        .EM2_rel_bus(EM2_rel_bus),
+//        .EMF_rel_bus(EMF_rel_bus),
+        
+//        .ID2EM_bus(ID2EM_bus),
+//        .EM2RO_bus(EM2RO_bus),
+//        .EM1_FID_bus(EM1_FID_bus),
+//        .EM2_FID_bus(EM2_FID_bus),
+//        .EMF_FID_bus(EMF_FID_bus),
+//        .EM1_FID_idx(EM1_FID_idx),
+//        .EM2_FID_idx(EM2_FID_idx),
+//        .EMF_FID_idx(EMF_FID_idx)
+//    );
+    
+    //LSU
+    LSU LSU(
+        .clk(clk),
+        .reset(reset),
+        .DM_stall(DM_stall),
+        
+        .ID2AG_en(ID2AG_en),
+        .AG2MEM_en(AG2MEM_en),
+        .MEM2LSF_en(MEM2LSF_en),
+        .ID2AG_cl(ID2AG_cl),
+        .AG2MEM_cl(AG2MEM_cl),
+        .MEM2LSF_cl(MEM2LSF_cl),
+        
+        .AG_rel_bus(AG_rel_bus),
+        .MEM_rel_bus(MEM_rel_bus),
+        .LSF_rel_bus(LSF_rel_bus),
+        
+        .ID2LS_bus(ID2LS_bus),
+        .LS2RO_bus(LS2RO_bus),
+        
+        .base_send_bus(base_send_bus),
+        .base_recv_bus(base_recv_bus),
+        .ext_send_bus(ext_send_bus),
+        .ext_recv_bus(ext_recv_bus),
+        .SPC_send_bus(SPC_send_bus),
+        .SPC_recv_bus(SPC_recv_bus),
+        .AG_FID_bus(AG_FID_bus),
+        .MEM_FID_bus(MEM_FID_bus),
+        .LSF_FID_bus(LSF_FID_bus),
+        .AG_FID_idx(AG_FID_idx),
+        .MEM_FID_idx(MEM_FID_idx),
+        .LSF_FID_idx(LSF_FID_idx),
+        .dirty_bus(dirty_bus)
+    );
+    //BRU
+    BRU BRU(
+    .clk(clk),
+    .reset(reset),
+    .ID2BR_en(ID2BR_en),
+    .ID2BR_cl(ID2BR_cl),
+    
+    .BR_PC(BR_PC),
+    .BR_BranchAddr(BR_BranchAddr),
+    .BR_BTYPE(BR_BTYPE),
+    .BR_BranchTaken(BR_BranchTaken),
+    .BR_PredictBranch(BR_PredictBranch),
+    .BR_JR(BR_JR),
+    .BR_JR_PC(BR_JR_PC),
+    
+    .ID2BR_bus(ID2BR_bus)
+    );
+    //RO stage
+    //issue log
+    issue_log issue_log(
+        .clk(clk),
+        .reset(reset),
+        .FID_curr(FID_curr),
+        .wr_en(issue_wr_en),
+        .rd_en(issue_rd_en),
+        .EX_FID_bus(EX_FID_bus),
+        .EXF_FID_bus(EXF_FID_bus),
+        .AG_FID_bus(AG_FID_bus),
+        .MEM_FID_bus(MEM_FID_bus),
+        .LSF_FID_bus(LSF_FID_bus),
+        .EX_FID_idx(EX_FID_idx),
+        .EXF_FID_idx(EXF_FID_idx),
+        .AG_FID_idx(AG_FID_idx),
+        .MEM_FID_idx(MEM_FID_idx),
+        .LSF_FID_idx(LSF_FID_idx)
+    );
+
+    ROU ROU(
+        .clk(clk),
+        .reset(reset),
+        .RO2WB_en(RO2WB_en),
+        .RO2WB_cl(RO2WB_cl),
+        .EX2RO_bus(EX2RO_bus),
+        .LS2RO_bus(LS2RO_bus),
+        .EXF_FID_idx(EXF_FID_idx),
+        .LSF_FID_idx(LSF_FID_idx),
+    
+        .commit(commit),//0:EXF, 1:LSF
+        .FID_hit(FID_hit),
+        
+        
+        .WB_WE2(WB_WE2),
+        .WB_WA2(WB_WA2),
+        .WB_WD2(WB_WD2),
+        
+        .WB_WE1(WB_WE1),
+        .WB_WA1(WB_WA1),
+        .WB_WD1(WB_WD1)
     );
     //RGF
     RGF RGF(
         .clk(clk),
         .reset(reset),
-        .WE(RGF_WE),
-        .Ra1(rs),
-        .Ra2(rt), 
-        .WA(RGF_WA),
-        .WD(RGF_WD),
-        .Rd1(ID_RD1_ori),
-        .Rd2(ID_RD2_ori)
-    );
-     //EXT
-     assign ID_EXTD=EXTOP?{{16{offset[15]}}, offset}:{16'd0,offset};
-
-     ID2EX ID2EX(
-        .clk(clk),
-        .reset(reset),
-        .en(ID2EX_en),
-        .bubble(ID2EX_bubble),
-        .ID_PC(ID_PC),
-        .ID_IR(ID_IR),
-        .ALUOP(ID_ALUOP),
-        .MemLoad(ID_MemLoad),
-        .MemToReg(ID_MemToReg),
-        .MemWrite(ID_MemWrite),
-        .ALUSource(ID_ALUSource),
-        .RegWrite(ID_RegWrite),
-        .JMP(ID_JMP),
-        .JR(ID_JR),
-        .LUI(ID_LUI),
-        .JAL(ID_JAL),
-        .BType(ID_BTYPE),
-        .LB_SB(ID_LB_SB),
-        .POF(ID_POF),
-        .EX_PC(EX_PC),
-        .EX_IR(EX_IR),
-        .EXTD(ID_EXTD),
-        .WA(ID_WA),
-        .RD1(ID_RD1),
-        .RD2(ID_RD2),
-        .USE_SA(ID_USE_SA),
-        .MEM_ALUD2EX_RD1(ID_MEM_ALUD2EX_RD1),
-        .MEM_ALUD2EX_RD2(ID_MEM_ALUD2EX_RD2),
-        .WB_WD2EX_RD1(ID_WB_WD2EX_RD1),
-        .WB_WD2EX_RD2(ID_WB_WD2EX_RD2),
-        .PredictBranch(ID_PredictBranch),
+        .Ra1(IS_RA1),
+        .Ra2(IS_RA2), 
+        .Rd1(RD1_r),
+        .Rd2(RD2_r),
         
-        .ALUOP_o(EX_ALUOP),
-        .MemLoad_o(EX_MemLoad),
-        .MemToReg_o(EX_MemToReg),
-        .MemWrite_o(EX_MemWrite),
-        .ALUSource_o(EX_ALUSource),
-        .RegWrite_o(EX_RegWrite),
-        .JMP_o(EX_JMP),
-        .JR_o(EX_JR),
-        .LUI_o(EX_LUI),
-        .JAL_o(EX_JAL),
-        .BType_o(EX_BTYPE),
-        .LB_SB_o(EX_LB_SB),
-        .POF_o(EX_POF),
-        .EXTD_o(EX_EXTD),
-        .WA_o(EX_WA),
-        .RD1_o(EX_RD1),
-        .RD2_o(EX_RD2),
-        .USE_SA_o(EX_USE_SA),
-        .MEM_ALUD2EX_RD1_o(EX_MEM_ALUD2EX_RD1),
-        .MEM_ALUD2EX_RD2_o(EX_MEM_ALUD2EX_RD2),
-        .WB_WD2EX_RD1_o(EX_WB_WD2EX_RD1),
-        .WB_WD2EX_RD2_o(EX_WB_WD2EX_RD2),
-        .PredictBranch_o(EX_PredictBranch)
-    );
-     //STAGE EX 
-    assign EX_SA=EX_IR[10:6];
-    assign ALU_A=EX_USE_SA?{27'd0, EX_SA}:EX_RD1;
-    assign ALU_B=EX_ALUSource?EX_EXTD:EX_RD2;
-    assign EX_BranchAddr={{14{EX_IR[15]}}, EX_IR[15:0], 2'd0}+EX_PC+32'd4;
-    assign LUI_Res={EX_EXTD[15:0],16'd0};
-    assign JAL_Res=EX_PC+8;
-    assign EX_ALUD=EX_LUI?LUI_Res:EX_JAL?JAL_Res:ALU_Res;
-    // BRD
-    BRANCH_DETECTOR BRD(
-       .BTYPE(EX_BTYPE),
-       .RS_D(EX_RD1),
-       .RT_D(EX_RD2),
-       .Branch(EX_BranchTaken)
-       );
-    //ALU
-    ALU ALU(
-        .clk(clk),
-        .reset(reset),
-        .A(ALU_A),
-        .B(ALU_B),
-        .ALUOP(EX_ALUOP),
-        .R(ALU_Res),
-        .OF(OF),
-        .done(EX_ALU_DONE)
-    );
-
-    assign EX_RegWrite_new=EX_POF&OF?1'd0:EX_RegWrite;// overflow exception
-    EX2MEM EX2MEM(
-     .clk(clk),
-     .reset(reset),
-     .en(EX2MEM_en),
-     .bubble(EX2MEM_bubble),
-     .EX_PC(EX_PC),
-     .EX_IR(EX_IR),
-     .MemLoad(EX_MemLoad),
-     .MemToReg(EX_MemToReg),
-     .MemWrite(EX_MemWrite),
-     .RegWrite(EX_RegWrite_new),
-     .LB_SB(EX_LB_SB),
-     .WA(EX_WA),
-     .ALUD(EX_ALUD),
-     .RD2(EX_RD2),
-     .MEM_PC(MEM_PC),
-     .MEM_IR(MEM_IR),
-     .MemLoad_o(MEM_MemLoad),
-     .MemToReg_o(MEM_MemToReg),
-     .MemWrite_o(MEM_MemWrite),
-     .RegWrite_o(MEM_RegWrite),
-     .LB_SB_o(MEM_LB_SB),
-     .WA_o(MEM_WA),
-     .ALUD_o(MEM_ALUD),
-     .RD2_o(MEM_RD2)
-    );
-    //STATE EM1
-    ID2EM1 ID2EM1(
-        .clk(clk),
-        .reset(reset),
-        .en(ID2EM1_en),
-        .bubble(ID2EM1_bubble),
+        .WE2(WB_WE2),
+        .WA2(WB_WA2),
+        .WD2(WB_WD2),
         
-        .ID_PC(ID_PC),
-        .ID_IR(ID_IR),
-        .MCY(ID_MCY),
-        .RegWrite(ID_RegWrite),
-        .WA(ID_WA),
-        .RD1(ID_RD1),
-        .RD2(ID_RD2),
-        
-        .EM1_PC(EM1_PC),
-        .EM1_IR(EM1_IR),
-        .MCY_o(EM1_MCY),
-        .RegWrite_o(EM1_RegWrite),
-        .WA_o(EM1_WA),
-        .RD1_o(EM1_RD1),
-        .RD2_o(EM1_RD2)
-    );
-    assign EM1_ll=$unsigned(EM1_RD1[15:0])*$unsigned(EM1_RD2[15:0]);
-    assign EM1_lh=$unsigned(EM1_RD1[15:0])*$unsigned(EM1_RD2[31:16]);
-    assign EM1_hl=$unsigned(EM1_RD1[31:16])*$unsigned(EM1_RD2[15:0]);
-    assign EM1_hh=$unsigned(EM1_RD1[31:16])*$unsigned(EM1_RD2[31:16]);
-    
-    EM12EM2 EM12EM2(
-        .clk(clk),
-        .reset(reset),
-        .en(EM12EM2_en),
-        .bubble(EM12EM2_bubble),
-        
-        .EM1_PC(EM1_PC),
-        .EM1_IR(EM1_IR),
-        .MCY(EM1_MCY),
-        .RegWrite(EM1_RegWrite),
-        .WA(EM1_WA),
-        .ll(EM1_ll),
-        .lh(EM1_lh),
-        .hl(EM1_hl),
-        .hh(EM1_hh),
-        
-        .EM2_PC(EM2_PC),
-        .EM2_IR(EM2_IR),
-        .MCY_o(EM2_MCY),
-        .RegWrite_o(EM2_RegWrite),
-        .WA_o(EM2_WA),
-        .ll_o(EM2_ll),
-        .lh_o(EM2_lh),
-        .hl_o(EM2_hl),
-        .hh_o(EM2_hh)
+        .WE1(WB_WE1),
+        .WA1(WB_WA1),
+        .WD1(WB_WD1)
     );
     
-    //STATE EM2
-    assign EM2_LO=EM2_ll+{EM2_lh[15:0],16'b0}+{EM2_hl[15:0], 16'b0};
-    assign EM2_EM_D=EM2_LO;
-    EM22WB2 EM22WB2(
-        .clk(clk),
-        .reset(reset),
-        .en(EM22WB2_en),
-        .bubble(EM22WB2_bubble),
-        
-        .EM2_PC(EM2_PC),
-        .EM2_IR(EM2_IR),
-        .RegWrite(EM2_RegWrite),
-        .WA(EM2_WA),
-        .EM_D(EM2_EM_D),
-        
-        .WB2_PC(WB2_PC),
-        .WB2_IR(WB2_IR),
-        .RegWrite_o(WB2_RegWrite),
-        .WA_o(WB2_WA),
-        .EM_D_o(WB2_EM_D)
-    );
-    //STAGE MEM
-    assign DM_data_resp[0]=0;
-    assign DM_end_resp[0]=0;
-    assign DM_hold_resp[0]=0;
-    DM_transceiver_v2 DM_transceiver_v2(
-        .clk(clk),
-        .reset(reset),
-        .stall(DM_stall),
-        .stage(core_stage),
-        //cpu
-        .MEM_PC(MEM_PC),
-        .vaddr(MEM_ALUD),
-        .oe(MEM_MemLoad),
-        .we(MEM_MemWrite),
-        .LB_SB(MEM_LB_SB),
-        .mem_data_in(MEM_RD2),
-        .mem_data_out(MEM_MemDout),
-        // bridge
-        .start_req(DM_start_req),
-        .paddr_wd_req(DM_paddr_wd_req),
-        .dst_req(DM_dst_req),
-        .data_req(DM_data_req),
-        .write_req(DM_write_req),
-        .be_req(DM_be_req),
-        .hold_resp(DM_hold_resp[DM_dst_req]),
-        .data_resp(DM_data_resp[DM_dst_req]),
-        .end_resp(DM_end_resp[DM_dst_req]),
-        .will_busy({ram_will_busy[3], ram_will_busy[2], ram_will_busy[1], ram_will_busy[0]})
-    );
-    MEM2WB MEM2WB(
-        .clk(clk),
-        .reset(reset),
-        .en(MEM2WB_en),
-        .bubble(MEM2WB_bubble),
-        .MEM_PC(MEM_PC),
-        .MEM_IR(MEM_IR),
-        .MemToReg(MEM_MemToReg),
-        .RegWrite(MEM_RegWrite),
-        .WA(MEM_WA),
-        .ALUD(MEM_ALUD),
-        .MemDout(MEM_MemDout),
-        .WB_PC(WB_PC),
-        .WB_IR(WB_IR),
-        .MemToReg_o(WB_MemToReg),
-        .RegWrite_o(WB_RegWrite),
-        .WA_o(WB_WA),
-        .ALUD_o(WB_ALUD),
-        .MemDout_o(WB_MemDout)
-    );
-    //STAGE WB
-    assign WB_WD=WB_MemToReg?WB_MemDout:WB_ALUD;
-    assign RGF_WD=WB2_RegWrite?WB2_EM_D:WB_WD;
-    assign RGF_WA=WB2_RegWrite?WB2_WA:WB_WA;
-    assign RGF_WE=WB2_RegWrite|WB_RegWrite;
-    // Relata
+    // Relate
     RELATE RELATE(
         .clk(clk),
         .reset(reset),
-        .ID_RA1_Read(ID_RA1_READ),
-        .ID_RA2_Read(ID_RA2_READ),
-        .ID_RA1(rs),
-        .ID_RA2(rt),
-        .EX_WA(EX_WA),
-        .EX_RegWrite(EX_RegWrite),
-        .EX_MemLoad(EX_MemLoad),
-        .MEM_WA(MEM_WA),
-        .MEM_RegWrite(MEM_RegWrite),
-        .WB_WA(WB_WA),
-        .WB_RegWrite(WB_RegWrite),
-        .MEM_MemLoad(MEM_MemLoad),
-        .EM1_WA(EM1_WA),
-        .EM1_RegWrite(EM1_RegWrite),
-        .EM2_WA(EM2_WA),
-        .EM2_RegWrite(EM2_RegWrite),
-        .WB2_WA(WB2_WA),
-        .WB2_RegWrite(WB2_RegWrite),
+        .IS_RA1_Read(IS_RA1_READ),
+        .IS_RA2_Read(IS_RA2_READ),
+        .IS_RA1(IS_RA1),
+        .IS_RA2(IS_RA2),
+        .EX_rel_bus(EX_rel_bus),
+        .EXF_rel_bus(EXF_rel_bus),
+        .AG_rel_bus(AG_rel_bus),
+        .MEM_rel_bus(MEM_rel_bus),
+        .LSF_rel_bus(LSF_rel_bus),
+    
+        .EX_relate(EX_relate),
+        .EXF_relate(EXF_relate),
+        .AG_relate(AG_relate),
+        .MEM_relate(MEM_relate),
+        .LSF_relate(LSF_relate),
         
-        .ID_EXload(ID_EXload),
-        .ID_EM1_r(ID_EM1_r),
-        .EX_ALUD2ID_RD1(EX_ALUD2ID_RD1),
-        .EX_ALUD2ID_RD2(EX_ALUD2ID_RD2),
-        .MEM_ALUD2ID_RD1(MEM_ALUD2ID_RD1),
-        .MEM_ALUD2ID_RD2(MEM_ALUD2ID_RD2),
-        .MEM_MemDout2ID_RD1(MEM_MemDout2ID_RD1),
-        .MEM_MemDout2ID_RD2(MEM_MemDout2ID_RD2),
-        .WB_WD2ID_RD1(WB_WD2ID_RD1),
-        .WB_WD2ID_RD2(WB_WD2ID_RD2),
-        .WB2_EM_D2ID_RD1(WB2_EM_D2ID_RD1),
-        .WB2_EM_D2ID_RD2(WB2_EM_D2ID_RD2),
-        .EM2_EM_D2ID_RD1(EM2_EM_D2ID_RD1),
-        .EM2_EM_D2ID_RD2(EM2_EM_D2ID_RD2)
+        .to_IS_RD1(to_IS_RD1),
+        .to_IS_RD2(to_IS_RD2),
+        .to_IS_RD1_D(to_IS_RD1_D),
+        .to_IS_RD2_D(to_IS_RD2_D)
     );
     //base
     sram_ctrl #(.ram_id(1))base_controler(
@@ -822,26 +881,16 @@ module cpu(
         .oe(base_ram_oe_n),
         .we(base_ram_we_n),
         .IO_ctrl(base_ram_IO_ctrl),
-        //DM_transceiver
-        .DM_start_req(DM_start_req),
-        .DM_dst_req(DM_dst_req),
-        .DM_paddr_wd_req(DM_paddr_wd_req),
-        .DM_data_req(DM_data_req),
-        .DM_write_req(DM_write_req),
-        .DM_be_req(DM_be_req),
-        .DM_data_resp(DM_data_resp[1]),
-        .DM_hold_resp(DM_hold_resp[1]),
-        .DM_end_resp(DM_end_resp[1]),
+        //LSU
+        .LSU_send_bus(base_send_bus),
+        .LSU_recv_bus(base_recv_bus),
         //icache
         .IC_send_req(IC_send_req),
         .IC_dst_req(IC_dst_req),
         .IC_word_size_req(IC_word_size_req),
         .IC_start_paddr_wd_req(IC_start_paddr_wd_req),
         .IC_ready_resp(IC_ready_resp[1]),
-        .IC_data_bus_resp(IC_data_bus_resp[1]),
-        //busy
-        .busy(ram_busy[1]),
-        .will_busy(ram_will_busy[1])
+        .IC_data_bus_resp(IC_data_bus_resp[1])
     );
     //ext
     sram_ctrl #(.ram_id(2))ext_controler(
@@ -856,26 +905,16 @@ module cpu(
         .oe(ext_ram_oe_n),
         .we(ext_ram_we_n),
         .IO_ctrl(ext_ram_IO_ctrl),
-        //DM_transceiver
-        .DM_start_req(DM_start_req),
-        .DM_dst_req(DM_dst_req),
-        .DM_paddr_wd_req(DM_paddr_wd_req),
-        .DM_data_req(DM_data_req),
-        .DM_write_req(DM_write_req),
-        .DM_be_req(DM_be_req),
-        .DM_data_resp(DM_data_resp[2]),
-        .DM_hold_resp(DM_hold_resp[2]),
-        .DM_end_resp(DM_end_resp[2]),
+        //LSU
+        .LSU_send_bus(ext_send_bus),
+        .LSU_recv_bus(ext_recv_bus),
         //icache
         .IC_send_req(IC_send_req),
         .IC_dst_req(IC_dst_req),
         .IC_word_size_req(IC_word_size_req),
         .IC_start_paddr_wd_req(IC_start_paddr_wd_req),
         .IC_ready_resp(IC_ready_resp[2]),
-        .IC_data_bus_resp(IC_data_bus_resp[2]),
-        //busy
-        .busy(ram_busy[2]),
-        .will_busy(ram_will_busy[2])
+        .IC_data_bus_resp(IC_data_bus_resp[2])
     );
     //SPC
     SPC
@@ -885,15 +924,8 @@ module cpu(
         .reset(reset),
         .txd(txd),  //直连串口发送端
         .rxd(rxd),  //直连串口接收端
-        .paddr(DM_paddr_wd_req[0]),
-        .start_req(DM_start_req),
-        .DM_dst_req(DM_dst_req),
-        .end_resp(DM_end_resp[3]),
-        .DM_hold_resp(DM_hold_resp[3]),
-        .WD(DM_data_req),
-        .WE(DM_write_req), //1有效
-        .RE(!DM_write_req),
-        .RD(DM_data_resp[3]),
+        .LSU_send_bus(SPC_send_bus),
+        .LSU_recv_bus(SPC_recv_bus),
         .number(number)
     );
     // pipeline ctrl
@@ -902,33 +934,47 @@ module cpu(
         .reset(reset),
         .IC_stall(IC_stall),
         .DM_stall(DM_stall),
-        .ID_EXload(ID_EXload),
         .ID_JMP(ID_JMP),
-        .EX_BranchTaken(EX_BranchTaken),
-        .EX_PredictBranch(EX_PredictBranch),
-        .EX_JR(EX_JR),
-        .ID_MCY(ID_MCY),
-        .ID_EM1_r(ID_EM1_r),
+        .BR_BranchTaken(BR_BranchTaken),
+        .BR_PredictBranch(BR_PredictBranch),
+        .BR_JR(BR_JR),
+        .IS_FUID(IS_FUID),
+        .FID_hit(FID_hit),
+        .commit(commit),
         
-        .IFU_en(IFU_EN),
+        .EX_relate(EX_relate),
+        .EXF_relate(EXF_relate),
+        .AG_relate(AG_relate),
+        .MEM_relate(MEM_relate),
+        .LSF_relate(LSF_relate),
+        
+        .PFU_en(PFU_en),
         .PF2IF_en(PF2IF_en),
         .icache_en(icache_en),
         .IF2ID_en(IF2ID_en),
+        .ID2IS_en(ID2IS_en),
         .ID2EX_en(ID2EX_en),
-        .EX2MEM_en(EX2MEM_en),
-        .MEM2WB_en(MEM2WB_en),
-        .ID2EM1_en(ID2EM1_en),
-        .EM12EM2_en(EM12EM2_en),
-        .EM22WB2_en(EM22WB2_en),
+        .EX2EXF_en(EX2EXF_en),
+        .ID2AG_en(ID2AG_en),
+        .AG2MEM_en(AG2MEM_en),
+        .MEM2LSF_en(MEM2LSF_en),
+        .ID2BR_en(ID2BR_en),
+        .RO2WB_en(RO2WB_en),
         
-        .PF2IF_flush(PF2IF_flush),
-        .IF2ID_bubble(IF2ID_bubble),
-        .ID2EX_bubble(ID2EX_bubble),
-        .EX2MEM_bubble(EX2MEM_bubble),
-        .MEM2WB_bubble(MEM2WB_bubble),
-        .ID2EM1_bubble(ID2EM1_bubble),
-        .EM12EM2_bubble(EM12EM2_bubble),
-        .EM22WB2_bubble(EM22WB2_bubble)
+        .issue(issue),
+        .issue_wr_en(issue_wr_en),
+        .issue_rd_en(issue_rd_en),
+        
+        .PF2IF_cl(PF2IF_cl),
+        .IF2ID_cl(IF2ID_cl),
+        .ID2IS_cl(ID2IS_cl),
+        .ID2EX_cl(ID2EX_cl),
+        .EX2EXF_cl(EX2EXF_cl),
+        .ID2AG_cl(ID2AG_cl),
+        .AG2MEM_cl(AG2MEM_cl),
+        .MEM2LSF_cl(MEM2LSF_cl),
+        .ID2BR_cl(ID2BR_cl),
+        .RO2WB_cl(RO2WB_cl)
     );
     //for test
     SEG7_LUT segL(.oSEG1(dpy0), .iDIG(number[3:0])); //dpy0是低位数码管

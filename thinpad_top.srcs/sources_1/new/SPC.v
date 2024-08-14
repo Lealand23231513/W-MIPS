@@ -25,15 +25,9 @@ module SPC(
     input wire reset,
     output wire txd,  //直连串口发送端
     input  wire rxd,  //直连串口接收端
-    input wire  paddr,
-    input wire [31:0] WD,
-    input wire WE, //1有效
-    input wire RE,//1有效
-    input wire start_req,
-    input wire [1:0] DM_dst_req,
-    output reg [31:0] RD,
-    output reg end_resp,
-    output reg DM_hold_resp,
+    
+    input wire[`MEM_SEND_BUS_WIDTH-1:0] LSU_send_bus,
+    output wire[`MEM_RECV_BUS_WIDTH-1:0] LSU_recv_bus,
     //test
     output wire [7:0] number
     );
@@ -43,6 +37,13 @@ module SPC(
     (*mark_debug = "true"*)reg [7:0]ext_uart_tx;//ext_uart_buffer要读入cpu储存串口数据
     assign number=ext_uart_buffer;
     wire ext_uart_ready, ext_uart_clear, ext_uart_busy;
+    wire start_req, write_req;
+    wire [19:0] paddr_wd_req;
+    wire paddr;
+    wire [31:0] data_req;
+    wire [3:0] be_req;
+    reg recv_resp, end_resp;
+    reg [31:0] data_resp;
 //    reg start_req_d;
     reg ext_uart_start,  ext_uart_recv;
     async_receiver #(.ClkFrequency(CLK_FREQ),.Baud(9600)) //接收模块，9600无检验位
@@ -55,12 +56,22 @@ module SPC(
         );
     
     assign ext_uart_clear = ext_uart_ready; //收到数据的同时，清除标志，因为数据已取到ext_uart_buffer中
+    assign {start_req, paddr_wd_req, data_req, write_req, be_req}=LSU_send_bus;
+    assign LSU_recv_bus={recv_resp, end_resp, data_resp};
+    assign paddr=paddr_wd_req[0];
     always @(posedge clk, posedge reset) begin
         if (reset) begin
             end_resp<=0;
-            DM_hold_resp<=0;
+            recv_resp<=0;
         end
-        else if (start_req&!end_resp) begin
+        else if (start_req&!recv_resp) begin
+            recv_resp<=1;
+        end
+        else if (!start_req&recv_resp) begin
+            recv_resp<=0;
+        end
+        else if (start_req&recv_resp) begin
+            recv_resp<=0;
             end_resp<=1;
         end
         else if (!start_req&end_resp) begin
@@ -71,14 +82,14 @@ module SPC(
         if (reset) begin
             ext_uart_buffer<=8'd0;
             ext_uart_recv<=1'd0;
-            RD<=0;
+            data_resp<=0;
         end
         else if(ext_uart_ready)begin
             ext_uart_buffer <= ext_uart_rx;
             ext_uart_recv <= 1'b1;
         end
-        else if (RE & start_req & !end_resp & DM_dst_req==3) begin
-            RD<=paddr?{30'd0, ext_uart_recv, !ext_uart_busy}:{24'd0, ext_uart_buffer};
+        else if (!write_req & start_req & recv_resp) begin
+            data_resp<=paddr?{30'd0, ext_uart_recv, !ext_uart_busy}:{24'd0, ext_uart_buffer};
             ext_uart_recv<=paddr?ext_uart_recv:1'b0;
             ext_uart_buffer<=paddr?ext_uart_buffer:8'd0;
         end
@@ -88,8 +99,8 @@ module SPC(
             ext_uart_start<=1'd0;
             ext_uart_tx<=8'd0;
         end
-        else if(!ext_uart_busy & WE & start_req & !end_resp & DM_dst_req==3)begin 
-            ext_uart_tx <= WD[7:0];
+        else if(!ext_uart_busy & write_req & start_req)begin 
+            ext_uart_tx <= data_req[7:0];
             ext_uart_start <= 1;
         end else begin 
             ext_uart_start <= 0;

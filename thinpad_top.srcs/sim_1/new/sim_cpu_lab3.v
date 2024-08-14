@@ -31,13 +31,38 @@ module sim_cpu_lab3(
     wire clk_200M, clk_140m, clk_core;
     reg reset;
     parameter HALF_CYCLE = 10;
-    parameter SPC_CYCLE=5;
+    
     always #HALF_CYCLE begin
         clk = ~clk;
     end
-//    always #(SPC_CYCLE/2) begin
-//        clk_200M = ~clk_200M;
-//    end
+    `ifdef CLK_300M
+    parameter CLK_FREQ=300000000;
+    parameter SPC_CYCLE=3.333;
+    `elsif CLK_280M
+    parameter CLK_FREQ=280000000;
+    parameter SPC_CYCLE=3.571428;
+    `elsif CLK_260M
+    parameter CLK_FREQ=260000000;
+    parameter SPC_CYCLE=3.846153;
+    `elsif CLK_255M
+    parameter CLK_FREQ=255000000;
+    parameter SPC_CYCLE=3.92157;
+    `elsif CLK_250M
+    parameter CLK_FREQ=250000000;
+    parameter SPC_CYCLE=4;
+   `elsif CLK_225M
+    parameter CLK_FREQ=225000000;
+    parameter SPC_CYCLE=4.4444; 
+    `elsif CLK_200M
+    parameter CLK_FREQ=200000000;
+    parameter SPC_CYCLE=5;
+    `elsif CLK_100M
+    parameter CLK_FREQ=100000000;
+    parameter SPC_CYCLE=10;
+    `else
+    parameter CLK_FREQ=140000000;
+    parameter SPC_CYCLE=7.142857;
+    `endif
     wire [31:0]base_ram_data;
     wire[19:0] base_ram_addr;
     wire[3:0] base_ram_be_n;
@@ -55,13 +80,13 @@ module sim_cpu_lab3(
     wire txd;
     wire [15:0] leds;
     wire  rxd;
+    reg [7:0] send_memory[127:0];
+    reg [31:0] send_cnt;
+    integer i;
+    parameter test=1;//0: test d, 1: test g
     ram #(.lab(3), .ADDR_WIDTH(20)) 
     base_ram(
-    `ifdef OVER_CLOCK
     .clk(clk_core),
-    `else
-    .clk(clk_140m),
-    `endif
     .ram_data(base_ram_data),  
     .ram_addr(base_ram_addr), 
     .ram_be_n(base_ram_be_n),
@@ -72,11 +97,7 @@ module sim_cpu_lab3(
     
     ram #(.lab(3), .ADDR_WIDTH(20))
     ext_ram(
-    `ifdef OVER_CLOCK
     .clk(clk_core),
-    `else
-    .clk(clk_140m),
-    `endif
     .ram_data(ext_ram_data),  
     .ram_addr(ext_ram_addr), 
     .ram_be_n(ext_ram_be_n),
@@ -117,21 +138,26 @@ module sim_cpu_lab3(
     .rxd(rxd)  //直连串口接收端
     );
     
-    async_transmitter #(.ClkFrequency(140000000),.Baud(9600)) //发送模块，9600无检验位
+    async_transmitter #(.ClkFrequency(CLK_FREQ),.Baud(9600)) //发送模块，9600无检验位
         ext_uart_t(
-            .clk(clk_140m),                  //外部时钟信号
+            .clk(clk_core),                  //外部时钟信号
             .TxD(rxd),                      //串行信号输出
             .TxD_busy(busy),       //发送器忙状态指示
             .TxD_start(start),    //开始发送信号
             .TxD_data(data)        //待发送的数据
     );
-    always @(posedge clk) begin //将WD发送出去
+//    reg [31:0] b=32'h1, a=32'hfffffff1, r1, r2;
+    always @(posedge clk_core) begin //将WD发送出去
         if(!busy&&send)begin 
             start <= 1;
         end else begin 
             start <= 0;
         end
     end
+//    always @(*) begin
+//        r1=($unsigned(a)<$unsigned(b));
+//        r2=($signed(a)<$signed(b));
+//    end
     initial begin
         reset=0;
         clk=0;
@@ -139,55 +165,43 @@ module sim_cpu_lab3(
         dip_sw[1]=1'b1;
         data=0;
         send=0;
+        send_cnt=0;
+        
+//        r=
+        for(i=0;i<128;i=i+1) send_memory[i]=0;
+        if (test==0) begin
+            send_memory[0]=8'h44;
+            send_memory[1]=8'h00;
+            send_memory[2]=8'h00;
+            send_memory[3]=8'h00;
+            send_memory[4]=8'h80;
+            send_memory[5]=8'h40;
+            send_memory[6]=8'h00;
+            send_memory[7]=8'h00;
+            send_memory[8]=8'h00;
+            send_cnt=9;
+        end 
+        else if (test==1) begin
+            send_memory[0]=8'h47;
+            send_memory[1]=8'h3c;
+            send_memory[2]=8'h30;
+            send_memory[3]=8'h00;
+            send_memory[4]=8'h80;
+            send_cnt=5;
+        end
         #5
         reset=1;
         #100
         reset=0;
+//        $display("r1=%x, r2=%x", r1, r2);
         #30000
-        send=1;
-        data=8'h44;
-        #(5*SPC_CYCLE)
-        send=0;
-        #(1000)
-        send=1;
-        data=8'h00;
-        #(5*SPC_CYCLE)
-        send=0;
-        #(1000)
-        send=1;
-        data=8'h00;
-        #(5*SPC_CYCLE)
-        send=0;
-        #(1000)
-        send=1;
-        data=8'h00;
-        #(5*SPC_CYCLE)
-        send=0;
-        #(1000)
-        send=1;
-        data=8'h80;
-        #(5*SPC_CYCLE)
-        send=0;
-        #(1000)
-        send=1;
-        data=8'h40;
-        #(5*SPC_CYCLE)
-        send=0;
-        #(1000)
-        send=1;
-        data=8'h00;
-        #(5*SPC_CYCLE)
-        send=0;
-        #(1000)
-        send=1;
-        data=8'h00;
-        #(5*SPC_CYCLE)
-        send=0;
-        #(1000)
-        send=1;
-        data=8'h00;
-        #(5*SPC_CYCLE)
-        send=0;
+        for(i=0;i<send_cnt;i=i+1) begin
+            send=1;
+            data=send_memory[i];
+            #(5*SPC_CYCLE);
+            send=0;
+            #1000;
+        end
         
     end
 endmodule

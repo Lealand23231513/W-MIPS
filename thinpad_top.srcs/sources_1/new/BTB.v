@@ -23,12 +23,12 @@
 module BTB(
     input wire clk,reset,
     input wire [31:0] PC,
-    input wire [2:0]EX_Btype,
-    input wire EX_BranchTaken,//EX µº Branch
-    input wire EX_PredictBranch,//EX‘§≤‚Branch
-    input wire [31:0] EX_PC,
-    input wire [31:0] EX_BranchAddr,
-    output wire PredictBranch,// ‘§≤‚branch
+    input wire [2:0]BR_BTYPE,
+    input wire BR_BranchTaken,// Actual branch
+    input wire BR_PredictBranch,
+    input wire [31:0] BR_PC,
+    input wire [31:0] BR_BranchAddr,
+    output wire PredictBranch,//predict branch(PF)
     output wire [31:0]PredictBranchAddr
     );
     parameter BTB_SIZE=8;
@@ -36,18 +36,17 @@ module BTB(
     reg [31:0] branchPC [BTB_SIZE-1:0], dstPC[BTB_SIZE-1:0];
     reg [1:0] history[BTB_SIZE-1:0];//2'b00, 2'b01: not branch; 2'b10, 2'b11: branch
     reg [3:0] lru[BTB_SIZE-1:0];
-//    reg [31:0] EX_PC_hit_lst;
     wire [BTB_SIZE*4-1:0] lru_stack;
-    wire [BTB_SIZE-1:0] PC_hit, EX_PC_hit;
-    wire [2:0] PC_idx, EX_PC_idx, idx_replace;
-    wire valid_PC_idx, valid_EX_PC_idx;
+    wire [BTB_SIZE-1:0] PC_hit, BR_PC_hit;
+    wire [2:0] PC_idx, BR_PC_idx, idx_replace, lru_idx_hit;
+    wire valid_PC_idx, valid_BR_PC_idx;
+    wire flru_en;
     integer i;
     genvar j;
     generate
         for (j=0;j<BTB_SIZE;j=j+1) begin
             assign PC_hit[j]=v[j]&(PC==branchPC[j]);
-            assign EX_PC_hit[j]=v[j]&(EX_PC==branchPC[j]);
-            assign lru_stack[4*(j+1)-1:4*j]=lru[j];
+            assign BR_PC_hit[j]=v[j]&(BR_PC==branchPC[j]);
         end
     endgenerate
     encoder_8_3 encoder_8_3_1(
@@ -56,16 +55,21 @@ module BTB(
         .valid(valid_PC_idx)
     );
     encoder_8_3 encoder_8_3_2(
-        .in(EX_PC_hit),
-        .out(EX_PC_idx),
-        .valid(valid_EX_PC_idx)
+        .in(BR_PC_hit),
+        .out(BR_PC_idx),
+        .valid(valid_BR_PC_idx)
     );
-    max_of_8 max_of_8(
-        .data(lru_stack),
-        .max_idx(idx_replace)
+    flru_manager_8 flru_manager_8(
+        .clk(clk), 
+        .reset(reset), 
+        .en(flru_en),
+        .hit_idx(lru_idx_hit),
+        .rm_idx(idx_replace)
     );
     assign PredictBranch=valid_PC_idx&history[PC_idx][1];
-    assign PredictBranchAddr=valid_PC_idx&history[PC_idx][1]?dstPC[PC_idx]:0;
+    assign PredictBranchAddr=dstPC[PC_idx];
+    assign flru_en=(BR_BTYPE!=0);
+    assign lru_idx_hit=valid_BR_PC_idx?BR_PC_idx:idx_replace;
     always @(posedge clk, posedge reset) begin
         if(reset) begin
             for(i=0;i<BTB_SIZE;i=i+1) begin
@@ -73,44 +77,31 @@ module BTB(
                 branchPC[i]<=0;
                 dstPC[i]<=0;
                 history[i]<=2'b00;
-                lru[i]<=4'b1111;
-//                EX_PC_hit_lst<=0;
             end
         end
         else begin
-            if (EX_Btype) begin
-//                if (EX_PredictBranch)
-//                EX_PC_hit_lst<=EX_PC;
-                if (valid_EX_PC_idx) begin
-                    case (history[EX_PC_idx])
+            if (BR_BTYPE) begin
+                if (valid_BR_PC_idx) begin
+                    case (history[BR_PC_idx])
                         2'b00: begin
-                            history[EX_PC_idx]<=EX_BranchTaken?2'b01:2'b00;
+                            history[BR_PC_idx]<=BR_BranchTaken?2'b01:2'b00;
                         end
                         2'b01: begin
-                            history[EX_PC_idx]<=EX_BranchTaken?2'b10:2'b00;
+                            history[BR_PC_idx]<=BR_BranchTaken?2'b10:2'b00;
                         end
                         2'b10: begin
-                            history[EX_PC_idx]<=EX_BranchTaken?2'b10:2'b11;
+                            history[BR_PC_idx]<=BR_BranchTaken?2'b10:2'b11;
                         end
                         2'b11: begin
-                            history[EX_PC_idx]<=EX_BranchTaken?2'b10:2'b00;
+                            history[BR_PC_idx]<=BR_BranchTaken?2'b10:2'b00;
                         end
                     endcase
-                    for(i=0;i<BTB_SIZE;i=i+1) begin
-                        if(i==EX_PC_idx) begin
-                            lru[i]<=0;
-                        end
-                        else if (lru[i]!=4'b1111) begin
-                            lru[i]<=lru[i]+1;
-                        end
-                    end
                 end
-                else begin//valid_EX_PC_idx==0
+                else begin//valid_BR_PC_idx==0
                     v[idx_replace]<=1;
-                    lru[idx_replace]<=0;
-                    history[idx_replace]<=EX_BranchTaken?2'b10:2'b00;
-                    branchPC[idx_replace]<=EX_PC;
-                    dstPC[idx_replace]<=EX_BranchAddr;
+                    history[idx_replace]<=BR_BranchTaken?2'b10:2'b00;
+                    branchPC[idx_replace]<=BR_PC;
+                    dstPC[idx_replace]<=BR_BranchAddr;
                 end
             end
         end

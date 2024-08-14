@@ -24,25 +24,35 @@ module write_buffer(
     input wire clk, reset,
     output wire full,
     output wire empty,
-    input wire [31:0]din_vaddr,
-    input wire [31:0]din,
-    input wire [3:0] din_be,
-    input wire wr_en, rd_en,
-    output wire [31:0]dout,
-    output wire [31:0]dout_vaddr,
-    output wire [3:0] dout_be
+    input wire [55:0] din,
+    output wire [55:0] dout,
+    input wire wr_en, rd_en
     );
-    wire [67:0]din_d = {din_be, din, din_vaddr};
-    wire [67:0]dout_d = {dout_be, dout, dout_vaddr};
-    fifo_generator_0 write_buffer_fifo (
-      .clk(clk),      // input wire clk
-      .srst(reset),    // input wire srst
-      .din(din_d),      // input wire [67 : 0] din
-      .wr_en(wr_en),  // input wire wr_en
-      .rd_en(rd_en),  // input wire rd_en
-      .dout(dout),    // output wire [67 : 0] dout
-      .full(full),    // output wire full
-      .empty(empty)  // output wire empty
-    );
-    
+    parameter FIFO_DEPTH=16;
+    reg [55:0] fifo_mem[FIFO_DEPTH-1:0];
+    reg [3:0] head,tail;
+    integer i;
+    assign empty=(head==tail);
+    assign full=(head==tail+1);
+    assign dout=fifo_mem[head];
+    always @(posedge clk, posedge reset) begin
+        if (reset) begin
+            for(i=0;i<FIFO_DEPTH;i=i+1) begin
+                fifo_mem[i]<=0;
+            end
+            head<=0;
+            tail<=0;
+        end
+        else begin
+            if (rd_en&!empty) begin
+                head<=head+1;
+                fifo_mem[head]<=0;
+            end
+            if (wr_en&!full) begin
+                tail<=tail+1;
+                fifo_mem[tail]<=din;
+            end
+        end
+    end
 endmodule
+

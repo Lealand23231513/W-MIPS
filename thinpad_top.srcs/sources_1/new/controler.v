@@ -25,7 +25,6 @@ module controler(
     
     output wire[3:0] ALUOP,
     output wire [2:0] BTYPE,
-    output wire MemToReg,
     output wire MemWrite,
     output wire ALUSource,
     output wire RegWrite,
@@ -41,8 +40,8 @@ module controler(
     output wire LB_SB,
     output wire POF,
     output wire USE_SA,
-    output wire ID_RegUse,
-    output wire MCY
+    output wire [2:0] FUID,
+    output wire MUL
     );
     wire [5:0]OP=IR[31:26];
     wire [5:0]FUNCT=IR[5:0];
@@ -55,7 +54,7 @@ module controler(
     wire sw=(OP==6'b101011);
     wire beq=(OP==6'b000100);
     wire lui=(OP==6'b001111);
-    wire nop=(OP==6'b0)&(FUNCT==6'b0);
+//    wire nop=(OP==6'b0)&(FUNCT==6'b0);
     wire j=(OP==6'b000010);
     wire jal=(OP==6'b000011);
     wire jr=(OP==6'b000000)&(FUNCT==6'b001000);
@@ -75,32 +74,36 @@ module controler(
     wire srl=(OP==6'b000000)&(FUNCT==6'b000010);
     wire bgtz=(OP==6'b000111);
     wire mul=(OP==6'b011100)&(FUNCT==6'b000010);
+    wire slt=(OP==6'b000000)&(FUNCT==6'b101010);
+    wire sltu=(OP==6'b000000)&(FUNCT==6'b101011);
     
     
     //generate control sigs
-    assign ALUOP[0]=subu|lui|XOR|sll|xori|srl;
-    assign ALUOP[1]=addu|lw|sw|jal|addiu|lb|sb|add|srav|srl|mul;
-    assign ALUOP[2]=lui|sll|srav|srl;
+    assign ALUOP[0]=subu|lui|XOR|sll|xori|srl|sltu;
+    assign ALUOP[1]=addu|lw|sw|jal|addiu|lb|sb|add|srav|srl|mul|sltu;
+    assign ALUOP[2]=lui|sll|srav|srl|slt;
     assign ALUOP[3]=andi|XOR|AND|xori|mul;
     assign BTYPE[0]=beq|blez|bgtz;
     assign BTYPE[1]=bne;
     assign BTYPE[2]=blez;
-    assign MemToReg=lw|lb;
     assign MemWrite=sw|sb;
     assign ALUSource=ori|lw|sw|lui|andi|addiu|lb|sb|xori;
-    assign RegWrite=addu|subu|ori|lw|lui|jal|andi|XOR|addiu|lb|sll|add|srav|OR|AND|xori|srl|mul;
-    assign RegDst=addu|subu|jr|XOR|sll|add|srav|OR|AND|srl|mul;
+    assign RegWrite=addu|subu|ori|lw|lui|jal|andi|XOR|addiu|lb|sll|add|srav|OR|AND|xori|srl|mul|slt|sltu;
+    assign RegDst=addu|subu|jr|XOR|sll|add|srav|OR|AND|srl|mul|slt|sltu;
     assign EXTOP=lw|sw|beq|bne|addiu|lb|sb|blez|bgtz;
     assign LUI=lui;
     assign JMP=j|jal;
     assign JR=jr;
     assign JAL=jal;
     assign MemLoad=lw|lb;
-    assign RA1_READ=addu|subu|ori|lw|sw|beq|jr|bne|andi|XOR|addiu|lb|sb|add|srav|blez|OR|AND|xori|bgtz|mul;
-    assign RA2_READ=addu|subu|sw|beq|bne|XOR|sll|add|srav|OR|AND|srl|mul;
+    assign RA1_READ=addu|subu|ori|lw|sw|beq|jr|bne|andi|XOR|addiu|lb|sb|add|srav|blez|OR|AND|xori|bgtz|mul|slt|sltu;
+    assign RA2_READ=addu|subu|sw|beq|bne|XOR|sll|add|srav|OR|AND|srl|mul|slt|sltu;
     assign LB_SB=lb|sb;
     assign POF=add;
     assign USE_SA=sll|srl;
-    assign ID_RegUse=beq|jr|bne|blez|bgtz;
-    assign MCY=mul;
+//    assign ID_RegUse=beq|jr|bne|blez|bgtz;
+    assign FUID[0]=lw|sw|beq|j|jr|bne|lb|sb|blez|bgtz|mul;
+    assign FUID[1]=beq|j|jr|bne|blez|bgtz;
+    assign FUID[2]=0;
+    assign MUL=mul;
 endmodule

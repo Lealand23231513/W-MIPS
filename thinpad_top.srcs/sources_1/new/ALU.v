@@ -49,7 +49,7 @@ module ALU(
             4'b0001: tmp=A-B;
             4'b0010: tmp=A+B;
             4'b0011: tmp=($unsigned(A)<$unsigned(B));
-            4'b0100: tmp=(A<B);
+            4'b0100: tmp=($signed(A)<$signed(B));
             4'b0101: tmp=B<<A[4:0];
             4'b0110: tmp=B>>>A[4:0];
             4'b0111: tmp=$unsigned(B)>>$unsigned(A[4:0]);

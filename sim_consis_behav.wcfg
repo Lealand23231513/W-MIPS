@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="sim_consis_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="sim_consis" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="97539333fs"></ZoomStartTime>
+      <ZoomEndTime time="97681734fs"></ZoomEndTime>
+      <Cursor1Time time="97658000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="193"></NameColumnWidth>
+      <ValueColumnWidth column_width="126"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="35" />
+   <wvobject fp_name="/sim_consis/CPU/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/CPU/reset" type="logic">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/CPU/icache/PF_PC" type="array">
+      <obj_property name="ElementShortName">PF_PC[31:0]</obj_property>
+      <obj_property name="ObjectShortName">PF_PC[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/CPU/IF2ID/IF_PC" type="array">
+      <obj_property name="ElementShortName">IF_PC[31:0]</obj_property>
+      <obj_property name="ObjectShortName">IF_PC[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/CPU/IF2ID/IF_IR" type="array">
+      <obj_property name="ElementShortName">IF_IR[31:0]</obj_property>
+      <obj_property name="ObjectShortName">IF_IR[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/CPU/IDU/ID_IR" type="array">
+      <obj_property name="ElementShortName">ID_IR[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ID_IR[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/CPU/IDU/IS_IR" type="array">
+      <obj_property name="ElementShortName">IS_IR[31:0]</obj_property>
+      <obj_property name="ObjectShortName">IS_IR[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/CPU/EXU/EX_IR" type="array">
+      <obj_property name="ElementShortName">EX_IR[31:0]</obj_property>
+      <obj_property name="ObjectShortName">EX_IR[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/CPU/EXU/EXF_IR" type="array">
+      <obj_property name="ElementShortName">EXF_IR[31:0]</obj_property>
+      <obj_property name="ObjectShortName">EXF_IR[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/CPU/LSU/AG_IR" type="array">
+      <obj_property name="ElementShortName">AG_IR[31:0]</obj_property>
+      <obj_property name="ObjectShortName">AG_IR[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/CPU/LSU/MEM_IR" type="array">
+      <obj_property name="ElementShortName">MEM_IR[31:0]</obj_property>
+      <obj_property name="ObjectShortName">MEM_IR[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/CPU/LSU/LSF_IR" type="array">
+      <obj_property name="ElementShortName">LSF_IR[31:0]</obj_property>
+      <obj_property name="ObjectShortName">LSF_IR[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/CPU/BRU/BR_IR" type="array">
+      <obj_property name="ElementShortName">BR_IR[31:0]</obj_property>
+      <obj_property name="ObjectShortName">BR_IR[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/CPU/icache/dir_vaddr" type="array">
+      <obj_property name="ElementShortName">dir_vaddr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">dir_vaddr[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/CPU/icache/dirty" type="logic">
+      <obj_property name="ElementShortName">dirty</obj_property>
+      <obj_property name="ObjectShortName">dirty</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/CPU/RGF/DataReg[8]" type="array">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">[8][31:0]</obj_property>
+      <obj_property name="ObjectShortName">[8][31:0]</obj_property>
+      <obj_property name="label">t0</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/CPU/SPC/ext_uart_buffer" type="array">
+      <obj_property name="ElementShortName">ext_uart_buffer[7:0]</obj_property>
+      <obj_property name="ObjectShortName">ext_uart_buffer[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/CPU/SPC/ext_uart_rx" type="array">
+      <obj_property name="ElementShortName">ext_uart_rx[7:0]</obj_property>
+      <obj_property name="ObjectShortName">ext_uart_rx[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/CPU/SPC/ext_uart_tx" type="array">
+      <obj_property name="ElementShortName">ext_uart_tx[7:0]</obj_property>
+      <obj_property name="ObjectShortName">ext_uart_tx[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/base_ram_data" type="array">
+      <obj_property name="ElementShortName">base_ram_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">base_ram_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/base_ram_addr" type="array">
+      <obj_property name="ElementShortName">base_ram_addr[19:0]</obj_property>
+      <obj_property name="ObjectShortName">base_ram_addr[19:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/base_ram_ce_n" type="logic">
+      <obj_property name="ElementShortName">base_ram_ce_n</obj_property>
+      <obj_property name="ObjectShortName">base_ram_ce_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/base_ram_oe_n" type="logic">
+      <obj_property name="ElementShortName">base_ram_oe_n</obj_property>
+      <obj_property name="ObjectShortName">base_ram_oe_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/base_ram_we_n" type="logic">
+      <obj_property name="ElementShortName">base_ram_we_n</obj_property>
+      <obj_property name="ObjectShortName">base_ram_we_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/ext_ram_data" type="array">
+      <obj_property name="ElementShortName">ext_ram_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ext_ram_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/ext_ram_addr" type="array">
+      <obj_property name="ElementShortName">ext_ram_addr[19:0]</obj_property>
+      <obj_property name="ObjectShortName">ext_ram_addr[19:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/ext_ram_ce_n" type="logic">
+      <obj_property name="ElementShortName">ext_ram_ce_n</obj_property>
+      <obj_property name="ObjectShortName">ext_ram_ce_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/ext_ram_oe_n" type="logic">
+      <obj_property name="ElementShortName">ext_ram_oe_n</obj_property>
+      <obj_property name="ObjectShortName">ext_ram_oe_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/ext_ram_we_n" type="logic">
+      <obj_property name="ElementShortName">ext_ram_we_n</obj_property>
+      <obj_property name="ObjectShortName">ext_ram_we_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/CPU/LSU/MEM_vaddr" type="array">
+      <obj_property name="ElementShortName">MEM_vaddr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">MEM_vaddr[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/CPU/icache/\genblk1[1].cache_way /dir_offset" type="array">
+      <obj_property name="ElementShortName">dir_offset[4:0]</obj_property>
+      <obj_property name="ObjectShortName">dir_offset[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/CPU/icache/\genblk1[1].cache_way /dir_index" type="array">
+      <obj_property name="ElementShortName">dir_index[4:0]</obj_property>
+      <obj_property name="ObjectShortName">dir_index[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/CPU/icache/\genblk1[1].cache_way /dir_tag" type="array">
+      <obj_property name="ElementShortName">dir_tag[21:0]</obj_property>
+      <obj_property name="ObjectShortName">dir_tag[21:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/CPU/icache/\genblk1[1].cache_way /line_tag[0]" type="array">
+      <obj_property name="ElementShortName">[0][21:0]</obj_property>
+      <obj_property name="ObjectShortName">[0][21:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_consis/CPU/icache/\genblk1[1].cache_way /line_v[0]" type="logic">
+      <obj_property name="ElementShortName">[0]</obj_property>
+      <obj_property name="ObjectShortName">[0]</obj_property>
+   </wvobject>
+</wave_config>

@@ -70,6 +70,7 @@ module ram#(
             else if (lab==4) file_bin= $fopen("C:/Users/wang/Desktop/longxin/test_UTEST_STREAM.bin", "rb");
             else if (lab==5) file_bin= $fopen("C:/Users/wang/Desktop/longxin/UTEST_CRYPTONIGHT_2.bin", "rb");
             else if (lab==6);
+            else if (lab==8) file_bin= $fopen("C:/Users/wang/Desktop/longxin/codes/test_slt/test_slt.bin", "rb");
             else begin
                 $display("wrong lab num!");
                 $stop(0);

@@ -44,6 +44,7 @@ module sim_cpu_lab1(
     wire ext_ram_oe_n;
     wire ext_ram_we_n;
     reg [31:0]dip_sw;
+    wire clk_core;
     
     ram base_ram(
     .ram_data(base_ram_data),  
@@ -52,7 +53,7 @@ module sim_cpu_lab1(
     .ram_ce_n(base_ram_ce_n),       
     .ram_oe_n(base_ram_oe_n),       
     .ram_we_n(base_ram_we_n),       
-    .clk(clk_140m)
+    .clk(clk_core)
     );
     
     ram #(.ISEXT(1))ext_ram(
@@ -62,13 +63,14 @@ module sim_cpu_lab1(
     .ram_ce_n(ext_ram_ce_n),       
     .ram_oe_n(ext_ram_oe_n),       
     .ram_we_n(ext_ram_we_n),       
-    .clk(clk_140m)
+    .clk(clk_core)
     );
     
     
     cpu CPU(
     .clk_50M(clk),           //50MHz  ±÷” ‰»Î
     .clk_140m(clk_140m),
+    .clk_core(clk_core),
     .clock_btn(clk),
     .reset_btn(reset),
     .dip_sw(dip_sw),
@@ -97,6 +99,7 @@ module sim_cpu_lab1(
         dip_sw[1]=1'b1;
         #100
         reset=0;
+//        $display("%b", 4'b1111==~4'b0);
     end
 
 endmodule

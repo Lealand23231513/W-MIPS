@@ -20,6 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 //`define SIMULATION
+`include "global_def.vh"
 module sim_cpu_lab2(
 
     );
@@ -28,7 +29,35 @@ module sim_cpu_lab2(
     reg reset;
     parameter HALF_CYCLE = 10;
 //    parameter SPC_CYCLE=5;
+    `ifdef CLK_300M
+    parameter CLK_FREQ=300000000;
+    parameter SPC_CYCLE=3.333;
+    `elsif CLK_280M
+    parameter CLK_FREQ=280000000;
+    parameter SPC_CYCLE=3.571428;
+    `elsif CLK_260M
+    parameter CLK_FREQ=260000000;
+    parameter SPC_CYCLE=3.846153;
+    `elsif CLK_255M
+    parameter CLK_FREQ=255000000;
+    parameter SPC_CYCLE=3.92157;
+    `elsif CLK_250M
+    parameter CLK_FREQ=250000000;
+    parameter SPC_CYCLE=4;
+   `elsif CLK_225M
+    parameter CLK_FREQ=225000000;
+    parameter SPC_CYCLE=4.4444; 
+    `elsif CLK_200M
+    parameter CLK_FREQ=200000000;
+    parameter SPC_CYCLE=5;
+    `elsif CLK_100M
+    parameter CLK_FREQ=100000000;
+    parameter SPC_CYCLE=10;
+    `else
+    parameter CLK_FREQ=140000000;
     parameter SPC_CYCLE=7.142857;
+    `endif
+    
     always #HALF_CYCLE begin
         clk = ~clk;
     end
@@ -58,7 +87,7 @@ module sim_cpu_lab2(
     .ram_ce_n(base_ram_ce_n),       
     .ram_oe_n(base_ram_oe_n),       
     .ram_we_n(base_ram_we_n),       
-    .clk(clk_140m)
+    .clk(clk_core)
     );
     
     ram #(.random_code(32'h421), .lab(2))
@@ -69,7 +98,7 @@ module sim_cpu_lab2(
     .ram_ce_n(ext_ram_ce_n),       
     .ram_oe_n(ext_ram_oe_n),       
     .ram_we_n(ext_ram_we_n),       
-    .clk(clk_140m)
+    .clk(clk_core)
     );
     
     

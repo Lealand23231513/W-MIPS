@@ -51,13 +51,7 @@ module sim_cpu_lab5(
     wire [15:0] leds;
     wire  rxd;
     wire clk_core;
-    `ifdef CLK_250M
-    parameter CLK_FREQ=250000000;
-    `elsif CLK_240M
-    parameter CLK_FREQ=240000000;
-    `elsif CLK_225M
-    parameter CLK_FREQ=225000000;
-    `elsif CLK_200M
+    `ifdef CLK_200M
     parameter CLK_FREQ=200000000;
     `elsif CLK_100M
     parameter CLK_FREQ=100000000;
@@ -91,6 +85,7 @@ module sim_cpu_lab5(
     .clk_50M(clk),           //50MHz  ±÷” ‰»Î
     .clk_11M0592(clk),
     .clk_core(clk_core),
+//    .clk_core(clk_140m),
     .clock_btn(clk),
     .reset_btn(reset),
     .dip_sw(dip_sw),
@@ -142,7 +137,7 @@ module sim_cpu_lab5(
         reset=1;
         #100
         reset=0;
-        #2550
+        #2100
         CPU.RGF.DataReg[2]=32'h7FFFF;
         CPU.RGF.DataReg[3]=32'h805FFFFC;
         CPU.RGF.DataReg[4]=32'h80400000;
@@ -150,6 +145,6 @@ module sim_cpu_lab5(
         CPU.RGF.DataReg[6]=32'hfaceb00c;
         CPU.RGF.DataReg[7]=32'h100000;
         CPU.RGF.DataReg[8]=32'h80000;
-//        $display("%x", ext_ram.memory[32'h5beef]);
+        $display("%x", ext_ram.memory[32'h5beef]);
     end
 endmodule

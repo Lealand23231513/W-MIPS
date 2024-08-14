@@ -284,3 +284,8 @@ set_property -dict {PACKAGE_PIN AD19 IOSTANDARD LVCMOS33} [get_ports ext_ram_we_
 
 
 
+
+
+
+
+

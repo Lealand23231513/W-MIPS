@@ -24,16 +24,16 @@ module PFU(
     input wire en,
     input wire reset,
     input wire clk,
-    input wire EX_BranchTaken,
+    input wire BR_BranchTaken,
     input wire IF_PredictBranch,
-    input wire EX_PredictBranch,
+    input wire BR_PredictBranch,
     input wire ID_JMP,
-    input wire EX_JR,
+    input wire BR_JR,
     input wire [31:0] ID_JMP_PC,
-    input wire [31:0] EX_JR_PC,
-    input wire [31:0] EX_PC,
+    input wire [31:0] BR_JR_PC,
+    input wire [31:0] BR_PC,
     input wire [31:0] IF_PredictBranchAddr,
-    input wire [31:0] EX_BranchAddr,
+    input wire [31:0] BR_BranchAddr,
     output wire [31:0] pc
     );
     
@@ -44,9 +44,9 @@ module PFU(
     
     always @(*) begin
         if(en) begin
-            if (EX_JR) pc_next=EX_JR_PC;
+            if (BR_JR) pc_next=BR_JR_PC;
+            else if (BR_BranchTaken!=BR_PredictBranch) pc_next=BR_BranchTaken?BR_BranchAddr:BR_PC+8;
             else if (ID_JMP) pc_next=ID_JMP_PC;
-            else if (EX_BranchTaken!=EX_PredictBranch) pc_next=EX_BranchTaken?EX_BranchAddr:EX_PC+8;
             else if (IF_PredictBranch) pc_next=IF_PredictBranchAddr;
             else pc_next=pc_reg+4;
         end

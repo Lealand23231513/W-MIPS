@@ -432,3 +432,31 @@ module MEM2WB(
         end
     end
 endmodule
+
+module pipeline_stage
+#(
+    parameter BUS_WIDTH=32
+)(
+    input wire clk,
+    input wire reset,
+    input wire en,
+    input wire cl,
+    output reg new_one,
+    
+    input wire [BUS_WIDTH-1:0] bus_i,
+    (* max_fanout = "30" *)output reg [BUS_WIDTH-1:0] bus_o
+    );
+    always @(posedge clk, posedge reset) begin
+        if (reset) begin
+            bus_o<=0;
+            new_one<=0;
+        end
+        else if (en) begin
+            bus_o<=cl?0:bus_i;
+            new_one<=1;
+        end
+        else begin
+            new_one<=0;
+        end
+    end
+endmodule
