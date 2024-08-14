@@ -265,7 +265,8 @@ module cpu(
     wire [`OFFSET_WIDTH-`PAD_WIDTH:0]IC_word_size_req;
     wire [31:0] IC_start_vaddr_req;
     wire IC_ready_resp[3:0];
-    wire [32*`BLOCK_SIZE-1:0] IC_data_bus_resp[3:0];
+//    wire [32*`BLOCK_SIZE-1:0] IC_data_bus_resp[3:0];
+    wire [31:0] IC_data_bus_resp[3:0];
     //icache sigs
     wire IC_done_lst;
     wire IC_done;

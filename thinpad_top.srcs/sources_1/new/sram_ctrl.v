@@ -60,10 +60,11 @@ module sram_ctrl(
     input wire [`OFFSET_WIDTH-`PAD_WIDTH:0]IC_word_size_req,
     input wire [19:0] IC_start_paddr_wd_req,
     output reg IC_ready_resp,
-    output wire [32*`BLOCK_SIZE-1:0] IC_data_bus_resp
+    output wire [31:0] IC_data_bus_resp
     );
     parameter [1:0] ram_id=0; //0:invalid 1: base 2: ext 3: spc
-    reg [31:0] data_bus_resp_reg[`BLOCK_SIZE-1:0];
+//    reg [31:0] data_bus_resp_reg[`BLOCK_SIZE-1:0];
+    reg [31:0] data_bus_resp_reg;
     `ifdef MEMVIS_6
     reg [2:0] ram_state;// 0: Free, 1,2,3,4,5,6: mem access
     `elsif MEMVIS_5
@@ -85,11 +86,12 @@ module sram_ctrl(
     assign IO_ctrl=we;
     assign {LSU_start_req, LSU_paddr_wd_req, LSU_data_req, LSU_write_req, LSU_be_req}=LSU_send_bus;
     assign LSU_recv_bus={LSU_recv_resp, LSU_end_resp, data_r};
-    generate
-        for (j=0;j<`BLOCK_SIZE;j=j+1) begin
-            assign IC_data_bus_resp[32*(j+1)-1:32*j]=data_bus_resp_reg[j];
-        end
-    endgenerate
+//    generate
+//        for (j=0;j<`BLOCK_SIZE;j=j+1) begin
+//            assign IC_data_bus_resp[32*(j+1)-1:32*j]=data_bus_resp_reg[j];
+//        end
+//    endgenerate
+    assign IC_data_bus_resp=data_bus_resp_reg;
     always @(posedge clk, posedge reset) begin
         if (reset) begin
             data_w<=0;
@@ -104,9 +106,10 @@ module sram_ctrl(
             ram_state<=0;
             ram_src<=0;
             num_finished<=0;
-            for (i=0;i<`BLOCK_SIZE;i=i+1) begin
-                data_bus_resp_reg[i]<=0;
-            end
+//            for (i=0;i<`BLOCK_SIZE;i=i+1) begin
+//                data_bus_resp_reg[i]<=0;
+//            end
+            data_bus_resp_reg<=0;
         end
         else begin
             case (ram_state)
@@ -151,14 +154,14 @@ module sram_ctrl(
                 `LAST_STATE: begin
                     if (ram_src==1) begin //IC
                         if (num_finished<IC_word_size_req) begin
-                            data_bus_resp_reg[num_finished-1]<=data_r;
+                            data_bus_resp_reg<=data_r;
                             IC_ready_resp<=1;
                             addr<=addr+1;
                             num_finished<=num_finished+1;
                             ram_state<=`FIRST_STATE;
                         end
                         else if (IC_send_req&!IC_ready_resp) begin
-                            data_bus_resp_reg[num_finished-1]<=data_r;
+                            data_bus_resp_reg<=data_r;
                             IC_ready_resp<=1;
                             ce<=1;
                             oe<=1;

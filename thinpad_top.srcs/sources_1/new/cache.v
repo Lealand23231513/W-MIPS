@@ -40,7 +40,7 @@ module icache(
     (*mark_debug = "true"*)output reg [19:0] start_paddr_wd_req,
     (*mark_debug = "true"*)output reg [1:0] dst_req,
     (*mark_debug = "true"*)input wire ready_resp,
-    (*mark_debug = "true"*)input wire [32*`BLOCK_SIZE-1:0] data_bus_resp,
+    (*mark_debug = "true"*)input wire [31:0] data_bus_resp,
     //LSU
     input wire[32:0] dirty_bus
     );
@@ -52,7 +52,8 @@ module icache(
     reg [31:0]IR_lst_d;
     // receive
     reg ready_resp_d;
-    wire [31:0] data_resp [`BLOCK_SIZE-1:0];
+//    wire [31:0] data_resp [`BLOCK_SIZE-1:0];
+    wire [31:0] data_resp;
     wire flush_IR;
     //cache line
     wire [`SET_SIZE-1:0] IF_way_hit;
@@ -109,10 +110,11 @@ module icache(
                 .dirty(dirty)
             );
         end
-        for (j=0;j<`BLOCK_SIZE;j=j+1) begin
-            assign data_resp[j]=data_bus_resp[(j+1)*32-1:j*32];
-        end
+//        for (j=0;j<`BLOCK_SIZE;j=j+1) begin
+//            assign data_resp[j]=data_bus_resp[(j+1)*32-1:j*32];
+//        end
     endgenerate
+    assign data_resp=data_bus_resp;
     assign {dirty, dir_vaddr}=dirty_bus;
     assign {tag_d, index_d, offset_d} = vaddr_d;
     assign hit=IF_way_hit[0]|IF_way_hit[1];
@@ -213,7 +215,7 @@ module icache(
                     if (ready_resp&send_req) begin
                         way_write_start[way_to_change]<=0;
                         resp_vaddr_buffer<={start_vaddr_req[31:`OFFSET_WIDTH], num_write[`OFFSET_WIDTH-3:0], 2'b0};
-                        way_din[way_to_change]<=data_resp[num_write];
+                        way_din[way_to_change]<=data_resp;
                         way_is_write[way_to_change]<=1;
                         if (num_write<`BLOCK_SIZE-1) begin
                             num_write<=num_write+1;
