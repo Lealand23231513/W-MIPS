@@ -34,7 +34,7 @@ CPU Abstract
 |  time/s   | 0.037  | 0.077  |    0.150    | 0.264 |
 
 ## feature
-- this submit: 200M(**probably not stble**)
+- this submit: 250M(**unstble!!**)
 - frontend: 4 stage pipeline(PF, IF, ID, IS)
 - backend: 
 - LSU(2 stage)(AG, MEM) (merge with EMU(2 stage)(EM1, EM2) )
