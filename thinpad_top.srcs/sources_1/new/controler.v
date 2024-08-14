@@ -76,31 +76,34 @@ module controler(
     wire mul=(OP==6'b011100)&(FUNCT==6'b000010);
     wire slt=(OP==6'b000000)&(FUNCT==6'b101010);
     wire sltu=(OP==6'b000000)&(FUNCT==6'b101011);
+    wire sllv=(OP==6'b000000)&(FUNCT==6'b000100);
+    wire sra=(OP==6'b000000)&(FUNCT==6'b000011);
+    wire srlv=(OP==6'b000000)&(FUNCT==6'b000110);
     
     
     //generate control sigs
-    assign ALUOP[0]=subu|lui|XOR|sll|xori|srl|sltu;
-    assign ALUOP[1]=addu|lw|sw|jal|addiu|lb|sb|add|srav|srl|mul|sltu;
-    assign ALUOP[2]=lui|sll|srav|srl|slt;
+    assign ALUOP[0]=subu|lui|XOR|sll|xori|srl|sltu|sllv|srlv;
+    assign ALUOP[1]=addu|lw|sw|jal|addiu|lb|sb|add|srav|srl|mul|sltu|sra|srlv;
+    assign ALUOP[2]=lui|sll|srav|srl|slt|sllv|sra|srlv;
     assign ALUOP[3]=andi|XOR|AND|xori|mul;
     assign BTYPE[0]=beq|blez|bgtz;
     assign BTYPE[1]=bne;
     assign BTYPE[2]=blez;
     assign MemWrite=sw|sb;
     assign ALUSource=ori|lw|sw|lui|andi|addiu|lb|sb|xori;
-    assign RegWrite=addu|subu|ori|lw|lui|jal|andi|XOR|addiu|lb|sll|add|srav|OR|AND|xori|srl|mul|slt|sltu;
-    assign RegDst=addu|subu|jr|XOR|sll|add|srav|OR|AND|srl|mul|slt|sltu;
+    assign RegWrite=addu|subu|ori|lw|lui|jal|andi|XOR|addiu|lb|sll|add|srav|OR|AND|xori|srl|mul|slt|sltu|sllv|sra|srlv;
+    assign RegDst=addu|subu|jr|XOR|sll|add|srav|OR|AND|srl|mul|slt|sltu|sllv|sra|srlv;
     assign EXTOP=lw|sw|beq|bne|addiu|lb|sb|blez|bgtz;
     assign LUI=lui;
     assign JMP=j|jal;
     assign JR=jr;
     assign JAL=jal;
     assign MemLoad=lw|lb;
-    assign RA1_READ=addu|subu|ori|lw|sw|beq|jr|bne|andi|XOR|addiu|lb|sb|add|srav|blez|OR|AND|xori|bgtz|mul|slt|sltu;
-    assign RA2_READ=addu|subu|sw|beq|bne|XOR|sll|add|srav|OR|AND|srl|mul|slt|sltu;
+    assign RA1_READ=addu|subu|ori|lw|sw|beq|jr|bne|andi|XOR|addiu|lb|sb|add|srav|blez|OR|AND|xori|bgtz|mul|slt|sltu|sllv|srlv;
+    assign RA2_READ=addu|subu|sw|beq|bne|XOR|sll|add|srav|OR|AND|srl|mul|slt|sltu|sllv|sra|srlv;
     assign LB_SB=lb|sb;
     assign POF=add;
-    assign USE_SA=sll|srl;
+    assign USE_SA=sll|srl|sra;
 //    assign ID_RegUse=beq|jr|bne|blez|bgtz;
     assign FUID[0]=lw|sw|beq|j|jr|bne|lb|sb|blez|bgtz|mul;
     assign FUID[1]=beq|j|jr|bne|blez|bgtz;

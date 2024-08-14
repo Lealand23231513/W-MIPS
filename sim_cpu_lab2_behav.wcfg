@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="28795666fs"></ZoomStartTime>
-      <ZoomEndTime time="28940067fs"></ZoomEndTime>
-      <Cursor1Time time="28876866fs"></Cursor1Time>
+      <ZoomStartTime time="18505907fs"></ZoomStartTime>
+      <ZoomEndTime time="21401908fs"></ZoomEndTime>
+      <Cursor1Time time="18988573fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="160"></NameColumnWidth>
-      <ValueColumnWidth column_width="67"></ValueColumnWidth>
+      <ValueColumnWidth column_width="63"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="36" />
+   <WVObjectSize size="35" />
    <wvobject fp_name="/sim_cpu_lab2/CPU/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -47,18 +47,6 @@
    <wvobject fp_name="/sim_cpu_lab2/CPU/EXU/EXF_IR" type="array">
       <obj_property name="ElementShortName">EXF_IR[31:0]</obj_property>
       <obj_property name="ObjectShortName">EXF_IR[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/sim_cpu_lab2/CPU/EMU/EM1_IR" type="array">
-      <obj_property name="ElementShortName">EM1_IR[31:0]</obj_property>
-      <obj_property name="ObjectShortName">EM1_IR[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/sim_cpu_lab2/CPU/EMU/EM2_IR" type="array">
-      <obj_property name="ElementShortName">EM2_IR[31:0]</obj_property>
-      <obj_property name="ObjectShortName">EM2_IR[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/sim_cpu_lab2/CPU/EMU/EMF_IR" type="array">
-      <obj_property name="ElementShortName">EMF_IR[31:0]</obj_property>
-      <obj_property name="ObjectShortName">EMF_IR[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/sim_cpu_lab2/CPU/LSU/AG_IR" type="array">
       <obj_property name="ElementShortName">AG_IR[31:0]</obj_property>
@@ -139,16 +127,16 @@
       <obj_property name="ObjectShortName">ext_ram_we_n</obj_property>
    </wvobject>
    <wvobject fp_name="/sim_cpu_lab2/CPU/issue_log/head" type="array">
-      <obj_property name="ElementShortName">head[3:0]</obj_property>
-      <obj_property name="ObjectShortName">head[3:0]</obj_property>
+      <obj_property name="ElementShortName">head[2:0]</obj_property>
+      <obj_property name="ObjectShortName">head[2:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/sim_cpu_lab2/CPU/issue_log/tail" type="array">
-      <obj_property name="ElementShortName">tail[3:0]</obj_property>
-      <obj_property name="ObjectShortName">tail[3:0]</obj_property>
+      <obj_property name="ElementShortName">tail[2:0]</obj_property>
+      <obj_property name="ObjectShortName">tail[2:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/sim_cpu_lab2/CPU/issue_log/cnt" type="array">
-      <obj_property name="ElementShortName">cnt[3:0]</obj_property>
-      <obj_property name="ObjectShortName">cnt[3:0]</obj_property>
+      <obj_property name="ElementShortName">cnt[2:0]</obj_property>
+      <obj_property name="ObjectShortName">cnt[2:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/sim_cpu_lab2/CPU/RGF/DataReg[16]" type="array">
       <obj_property name="DisplayName">label</obj_property>
@@ -161,6 +149,18 @@
       <obj_property name="ElementShortName">[4][31:0]</obj_property>
       <obj_property name="ObjectShortName">[4][31:0]</obj_property>
       <obj_property name="label">a0</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_lab2/CPU/RGF/DataReg[3]" type="array">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">[3][31:0]</obj_property>
+      <obj_property name="ObjectShortName">[3][31:0]</obj_property>
+      <obj_property name="label">v1</obj_property>
+   </wvobject>
+   <wvobject fp_name="/sim_cpu_lab2/CPU/RGF/DataReg[2]" type="array">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">[2][31:0]</obj_property>
+      <obj_property name="ObjectShortName">[2][31:0]</obj_property>
+      <obj_property name="label">v0</obj_property>
    </wvobject>
    <wvobject fp_name="/sim_cpu_lab2/CPU/DM_stall" type="logic">
       <obj_property name="ElementShortName">DM_stall</obj_property>

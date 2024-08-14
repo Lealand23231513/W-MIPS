@@ -90,7 +90,7 @@ module sim_cpu_lab2(
     .clk(clk_core)
     );
     
-    ram #(.random_code(32'h421), .lab(2))
+    ram #(.random_code(32'h4F9), .lab(2))
     ext_ram(
     .ram_data(ext_ram_data),  
     .ram_addr(ext_ram_addr[9:0]), 

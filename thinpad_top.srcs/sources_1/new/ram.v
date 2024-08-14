@@ -90,7 +90,9 @@ module ram#(
         end
         if (lab==2&&random_code) begin
             memory[32'h41]=random_code;
-            memory[32'h42]=32'h7ead0521;
+//            memory[32'h42]=32'h7ead0521;
+//            memory[32'h42]=32'h7ead05f9;
+            memory[32'h42]=(32'hfeed0000|random_code)^32'h80400100;
         end
         if (lab==4&&random_code) begin
 //            memory[32'h20040000]=32'h12345678;
