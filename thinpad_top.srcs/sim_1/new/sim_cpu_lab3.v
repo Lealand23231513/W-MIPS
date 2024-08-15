@@ -98,7 +98,7 @@ module sim_cpu_lab3(
     .ram_we_n(base_ram_we_n)   
     );
     
-    ram #(.lab(3), .ADDR_WIDTH(20))
+    ram #(.lab(3), .ADDR_WIDTH(20), .ISEXT(1))
     ext_ram(
     .clk(clk_core),
     .ram_data(ext_ram_data),  
@@ -196,7 +196,7 @@ module sim_cpu_lab3(
         reset=1;
         #100
         reset=0;
-//        $display("r1=%x, r2=%x", r1, r2);
+        $display("%x", ext_ram.memory[1]);
         #30000
         for(i=0;i<send_cnt;i=i+1) begin
             send=1;
