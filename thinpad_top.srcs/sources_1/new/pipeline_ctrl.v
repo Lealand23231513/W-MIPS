@@ -24,6 +24,7 @@ module pipeline_ctrl(
     input wire clk,reset,
     input wire IC_stall,
     input wire DM_stall,
+    input wire AG_stall,
     input wire ID_JMP,
     input wire BR_BranchTaken,
     input wire BR_PredictBranch,
@@ -86,7 +87,7 @@ module pipeline_ctrl(
     assign EXF_commit=commit[`EXU_ID];
     assign LSF_commit=commit[`LSU_ID];
     assign EXU_permit=EXF_commit;
-    assign LSU_permit=LSF_commit&!DM_stall;
+    assign LSU_permit=LSF_commit&!DM_stall&!AG_stall;
     assign BRU_permit=1;
     assign IS_ready=!AG_relate&!(DM_stall&MEM_relate);
     
@@ -99,8 +100,8 @@ module pipeline_ctrl(
     assign MEM2LSF_en=LSF_commit;
     assign MEM2LSF_cl=DM_stall;
     assign AG2MEM_en=LSF_commit&!DM_stall;
-    assign AG2MEM_cl=0;
-    assign ID2AG_en=LSF_commit&!DM_stall;
+    assign AG2MEM_cl=AG_stall;
+    assign ID2AG_en=LSF_commit&!DM_stall&!AG_stall;
     assign ID2AG_cl=!issue_to_LSU|IC_stall|!IS_ready;
     assign ID2BR_en=!IC_stall&IS_ready&IS_access_permit;
     assign ID2BR_cl=!issue_to_BRU;

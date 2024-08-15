@@ -94,6 +94,11 @@ module ram#(
 //            memory[32'h42]=32'h7ead05f9;
             memory[32'h42]=(32'hfeed0000|random_code)^32'h80400100;
         end
+        if (lab==3&&ISEXT) begin
+            for (i=0;i<32'h8000;i=i+1)begin
+                memory[i]=i+1;
+            end
+        end
         if (lab==4&&random_code) begin
 //            memory[32'h20040000]=32'h12345678;
             for (i=0;i<100;i=i+1) begin

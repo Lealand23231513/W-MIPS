@@ -521,7 +521,7 @@ module cpu(
     wire [`FU2RO_BUS_WIDTH-1:0] LS2RO_bus;
     
     wire [1:0] commit;//0:EXF; 1:EMF; 2:LSF
-    
+    wire AG_stall;
     
     wire WB_WE1;
     wire WB_WE2;
@@ -738,6 +738,7 @@ module cpu(
         .clk(clk),
         .reset(reset),
         .DM_stall(DM_stall),
+        .AG_stall(AG_stall),
         
         .ID2AG_en(ID2AG_en),
         .AG2MEM_en(AG2MEM_en),
@@ -935,6 +936,7 @@ module cpu(
         .reset(reset),
         .IC_stall(IC_stall),
         .DM_stall(DM_stall),
+        .AG_stall(AG_stall),
         .ID_JMP(ID_JMP),
         .BR_BranchTaken(BR_BranchTaken),
         .BR_PredictBranch(BR_PredictBranch),
