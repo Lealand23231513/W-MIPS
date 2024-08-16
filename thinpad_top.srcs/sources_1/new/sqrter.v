@@ -29,20 +29,21 @@ module sqrter(
     );
     reg state, done;
     reg [2:0] mult_state;
-    reg [31:0] up_t, low_t, mid_t_d;
+    reg [31:0] up_t, low_t;
     wire [63:0] P;
     wire [31:0] mid_t, P_lo;
     wire [31:0]A_sqrt_up;
     parameter INI_UP=32'h00010000;
     parameter INI_LOW=32'h0;
     parameter INI_MID=(INI_UP+INI_LOW)>>1;
-    assign A_sqrt_up=(A>>1)+1;
+    parameter MAX_MULT_CYCLE=2;
+    assign A_sqrt_up=(A>>1)+2;
     assign mid_t=(up_t+low_t)>>1;
     assign P_lo=P[31:0];
     always @(*) begin
         case (state)
             0: begin
-                stall=!valid;
+                stall=valid;
             end
             1: begin
                 stall=!done;
@@ -83,7 +84,7 @@ module sqrter(
                         R<=low_t;
                         state<=0;
                     end
-                    if(mult_state==5) begin
+                    if(mult_state==MAX_MULT_CYCLE) begin
                         if(P_lo>A) begin
                             up_t<=mid_t;
                         end

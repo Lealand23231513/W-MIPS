@@ -46,4 +46,4 @@ CPU Abstract
 - 100M, 140M, 200M, 250M, 255M
 - icache
 - Dynamic prediction
-- **modified mul into div**
+- **modified mul into sqrt**
