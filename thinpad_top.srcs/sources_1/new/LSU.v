@@ -79,7 +79,7 @@ module LSU(
     wire MEM_new_one, AG_MUL, MEM_MUL, AG_new_one;
     wire dirty_start;
     wire [31:0] dir_vaddr;
-    wire [31:0] AG_SQRT_D, MEM_SQRT_D;
+    wire [31:0] AG_MAX_D, MEM_MAX_D;
     pipeline_stage 
     #(.BUS_WIDTH(`ID2LS_BUS_WIDTH))
     ID2AG(
@@ -114,17 +114,23 @@ module LSU(
 //        .new_one(AG_new_one),
 //        .A(AG_RD1), //dividend
 //        .B(AG_RD2), //divisor
-//        .R(AG_SQRT_D),
+//        .R(AG_MAX_D),
 //        .stall(AG_stall)
 //    );
-    sqrter sqrter(
-        .clk(clk), 
-        .reset(reset),
+//    sqrter sqrter(
+//        .clk(clk), 
+//        .reset(reset),
+//        .A(AG_RD1),
+//        .R(AG_MAX_D),
+//        .valid(AG_MUL&AG_new_one),
+//        .stall(AG_stall) 
+//    );
+    maxer maxer(
         .A(AG_RD1),
-        .R(AG_SQRT_D),
-        .valid(AG_MUL&AG_new_one),
-        .stall(AG_stall) 
+        .B(AG_RD2),
+        .R(AG_MAX_D)
     );
+    assign AG_stall=0;
 
     pipeline_stage 
     #(.BUS_WIDTH(`AG2MEM_BUS_WIDTH))
@@ -133,8 +139,8 @@ module LSU(
         .reset(reset),
         .en(AG2MEM_en),
         .cl(AG2MEM_cl),
-        .bus_i({AG_PC, AG_FID, AG_FID_v, AG_IR, AG_RegWrite, AG_WA, AG_RD2, AG_paddr_wd, AG_pad, AG_dst, AG_MemLoad, AG_MemWrite, AG_LB_SB, AG_MUL, AG_SQRT_D, AG_vaddr}),
-        .bus_o({MEM_PC, MEM_FID, MEM_FID_v, MEM_IR, MEM_RegWrite, MEM_WA, MEM_RD2, MEM_paddr_wd, MEM_pad, MEM_dst, MEM_MemLoad, MEM_MemWrite, MEM_LB_SB, MEM_MUL, MEM_SQRT_D, MEM_vaddr}),
+        .bus_i({AG_PC, AG_FID, AG_FID_v, AG_IR, AG_RegWrite, AG_WA, AG_RD2, AG_paddr_wd, AG_pad, AG_dst, AG_MemLoad, AG_MemWrite, AG_LB_SB, AG_MUL, AG_MAX_D, AG_vaddr}),
+        .bus_o({MEM_PC, MEM_FID, MEM_FID_v, MEM_IR, MEM_RegWrite, MEM_WA, MEM_RD2, MEM_paddr_wd, MEM_pad, MEM_dst, MEM_MemLoad, MEM_MemWrite, MEM_LB_SB, MEM_MUL, MEM_MAX_D, MEM_vaddr}),
         .new_one(MEM_new_one)
     );
     //MEM
@@ -169,7 +175,7 @@ module LSU(
 //    assign MEM_LO=MEM_ll+{MEM_lh[15:0],16'b0}+{MEM_hl[15:0], 16'b0};
 //    assign MEM_HI={16'b0,MEM_lh[31:16]}+{16'b0,MEM_hl[31:16]}+MEM_hh;
     assign MEM_FID_bus={MEM_FID_v, MEM_FID};
-    assign MEM_D=MEM_MUL?MEM_SQRT_D:MEM_D_r;
+    assign MEM_D=MEM_MUL?MEM_MAX_D:MEM_D_r;
     assign MEM_rel_bus={MEM_D, MEM_WA, MEM_FID_idx, MEM_RegWrite, 1'd1};
     assign MEM_sup=(MEM_RegWrite&&!MEM_WA);
     assign base_send_bus=(MEM_dst==BASE_ID)?MEM_send_bus_ori:0;
