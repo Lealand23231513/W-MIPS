@@ -3,24 +3,20 @@
 .globl __start
 .section text
 
+
 __start:
 .text
-    ori $t0, $zero, 0x1   # t0 = 1
-    ori $t1, $zero, 0x1   # t1 = 1
-    xor $v0, $v0,   $v0   # v0 = 0
-    ori $v1, $zero, 8     # v1 = 8
-    lui $a0, 0x8040       # a0 = 0x80400000
-
+initialize:
+    lui $s0, 0x8040 #s0 = A = 0x80400000
+    lui $s1, 0x8070 #s1 = B = 0x80700000
+    or $s2, $s0, $0 #s2 = &A[addr]
+    lw $t0, 0($s0)
 loop:
-    addu  $t2, $t0, $t1   # t2 = t0+t1
-    ori   $t0, $t1, 0x0   # t0 = t1
-    ori   $t1, $t2, 0x0   # t1 = t2
-    sw    $t1, 0($a0)
-    addiu $a0, $a0, 4     # a0 += 4
-    addiu $v0, $v0, 1     # v0 += 1
-
-    bne   $v0, $v1, loop
-    ori   $zero, $zero, 0 # nop
-
-    jr    $ra
-    ori   $zero, $zero, 0 # nop
+    lw $t1, 0($s2)
+    addu $s2, $s2, 4
+    bne $s2, $s1, loop
+    mul $t0, $t0, $t1
+    sw $t0, 0($s1)
+end:
+    jr $ra
+    nop
