@@ -1,5 +1,5 @@
 //ctrl macro
-`define SIMULATION //remember to close before synthesis
+//`define SIMULATION //remember to close before synthesis
 //`define CLK_300M //UNSTABLE
 //`define CLK_280M //UNSTABLE
 `define CLK_265M
