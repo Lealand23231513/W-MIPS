@@ -86,6 +86,7 @@ module cpu(
     parameter CLK_250M_FREQ=250000000;
     parameter CLK_255M_FREQ=255000000;
     parameter CLK_260M_FREQ=260000000;
+    parameter CLK_265M_FREQ=265000000;
     parameter CLK_300M_FREQ=300000000;
     parameter CLK_280M_FREQ=280000000;
     `ifdef CLK_300M
@@ -114,6 +115,19 @@ module cpu(
        // Clock in ports
         .clk_in1(clk_50M)
      ); 
+   `elsif CLK_265M
+    parameter CLK_FREQ=CLK_265M_FREQ;
+    assign clk=clk_265M;
+    clk_gen_265M clk_gen_265M
+    (
+        // Clock out ports
+        .clk_265M(clk_265M),     // output clk_250M
+        // Status and control signals
+        .reset(reset_btn), // input reset
+        .locked(locked),       // output locked
+       // Clock in ports
+        .clk_in1(clk_50M)
+     );   
     `elsif CLK_260M
     parameter CLK_FREQ=CLK_260M_FREQ;
     assign clk=clk_260M;

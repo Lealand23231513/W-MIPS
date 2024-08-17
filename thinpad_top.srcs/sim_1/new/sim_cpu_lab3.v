@@ -41,6 +41,9 @@ module sim_cpu_lab3(
     `elsif CLK_280M
     parameter CLK_FREQ=280000000;
     parameter SPC_CYCLE=3.571428;
+    `elsif CLK_265M
+    parameter CLK_FREQ=265000000;
+    parameter SPC_CYCLE=3.77358;
     `elsif CLK_260M
     parameter CLK_FREQ=260000000;
     parameter SPC_CYCLE=3.846153;
