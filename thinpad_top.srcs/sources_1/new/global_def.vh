@@ -2,13 +2,12 @@
 `define SIMULATION //remember to close before synthesis
 //`define CLK_300M //UNSTABLE
 //`define CLK_280M //UNSTABLE
-`define CLK_265M
-//`define CLK_260M //ok, not stable
-//`define CLK_255M //ok
+//`define CLK_260M //slow than 250M
+`define CLK_255M //ok
 // `define CLK_250M //ok
 //`define CLK_225M
 //`define CLK_200M  //ok
-//`define CLK_140M //ok
+// `define CLK_140M //ok
 //`define CLK_100M //ok
 //sram ctrl
 `ifdef CLK_300M

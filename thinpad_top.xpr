@@ -891,7 +891,6 @@
     <FileSet Name="clk_gen_255M" Type="BlockSrcs" RelSrcDir="$PSRCDIR/clk_gen_255M">
       <File Path="$PSRCDIR/sources_1/ip/clk_gen_255M/clk_gen_255M.xci">
         <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
