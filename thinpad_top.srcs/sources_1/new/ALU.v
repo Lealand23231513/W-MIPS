@@ -55,6 +55,7 @@ module ALU(
             4'b0111: tmp=$unsigned(B)>>$unsigned(A[4:0]);
             4'b1000: tmp=A&B;
             4'b1001: tmp=A^B;
+            4'b1010: tmp=($unsigned(A)>$unsigned(B))?A:B;
 //            4'b1010: tmp=$signed(A)*$signed(B);
 //            4'b1010: tmp={1'b0, mult_R};
             default: tmp=32'dx;

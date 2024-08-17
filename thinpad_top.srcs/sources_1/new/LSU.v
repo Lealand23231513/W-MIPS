@@ -125,11 +125,12 @@ module LSU(
 //        .valid(AG_MUL&AG_new_one),
 //        .stall(AG_stall) 
 //    );
-    maxer maxer(
-        .A(AG_RD1),
-        .B(AG_RD2),
-        .R(AG_MAX_D)
-    );
+//    maxer maxer(
+//        .A(AG_RD1),
+//        .B(AG_RD2),
+//        .R(AG_MAX_D)
+//    );
+    assign AG_MAX_D=0;
     assign AG_stall=0;
 
     pipeline_stage 
@@ -175,7 +176,7 @@ module LSU(
 //    assign MEM_LO=MEM_ll+{MEM_lh[15:0],16'b0}+{MEM_hl[15:0], 16'b0};
 //    assign MEM_HI={16'b0,MEM_lh[31:16]}+{16'b0,MEM_hl[31:16]}+MEM_hh;
     assign MEM_FID_bus={MEM_FID_v, MEM_FID};
-    assign MEM_D=MEM_MUL?MEM_MAX_D:MEM_D_r;
+    assign MEM_D=MEM_D_r;
     assign MEM_rel_bus={MEM_D, MEM_WA, MEM_FID_idx, MEM_RegWrite, 1'd1};
     assign MEM_sup=(MEM_RegWrite&&!MEM_WA);
     assign base_send_bus=(MEM_dst==BASE_ID)?MEM_send_bus_ori:0;

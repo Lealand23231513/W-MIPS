@@ -105,8 +105,8 @@ module controler(
     assign POF=add;
     assign USE_SA=sll|srl|sra;
 //    assign ID_RegUse=beq|jr|bne|blez|bgtz;
-    assign FUID[0]=lw|sw|beq|j|jr|bne|lb|sb|blez|bgtz|mul;
+    assign FUID[0]=lw|sw|beq|j|jr|bne|lb|sb|blez|bgtz;
     assign FUID[1]=beq|j|jr|bne|blez|bgtz;
     assign FUID[2]=0;
-    assign MUL=mul;
+    assign MUL=0;
 endmodule
