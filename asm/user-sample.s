@@ -13,7 +13,7 @@ initialize:
     lw $t0, 0($s0)
 loop:
     lw $t1, 0($s2)
-    addu $s2, $s2, 4
+    addiu $s2, $s2, 4
     bne $s2, $s1, loop
     mul $t0, $t0, $t1
     sw $t0, 0($s1)
