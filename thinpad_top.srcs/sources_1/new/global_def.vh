@@ -2,8 +2,8 @@
 //`define SIMULATION //remember to close before synthesis
 //`define CLK_300M //UNSTABLE
 //`define CLK_280M //UNSTABLE
-//`define CLK_260M //slow than 250M
-`define CLK_255M //ok
+`define CLK_260M //slow than 250M
+//`define CLK_255M //ok
 // `define CLK_250M //ok
 //`define CLK_225M
 //`define CLK_200M  //ok
@@ -15,7 +15,7 @@
 `elsif CLK_280M
     `define MEMVIS_6
 `elsif CLK_260M
-    `define MEMVIS_6
+    `define MEMVIS_5
 `elsif CLK_255M
     `define MEMVIS_5
 `elsif CLK_250M
