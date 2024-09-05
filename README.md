@@ -3,7 +3,7 @@ CPU Abstract
 
 ## Test Result
 
-## 100M(stable)
+### 100M(stable)
 
 | test name | STREAM | MATRIX | CRYPTONIGHT |  sum  |
 | :-------: | :----: | :----: | :---------: | :---: |
